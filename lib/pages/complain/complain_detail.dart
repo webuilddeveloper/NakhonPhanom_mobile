@@ -101,8 +101,8 @@ class _ComplainDetailState extends State<ComplainDetail> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     SizedBox(
-                                      width: 100,
-                                      height: 100,
+                                      width: 80,
+                                      height: 80,
                                       child: Image.network(
                                         item['imageUrl'],
                                         fit: BoxFit.cover,
@@ -113,7 +113,7 @@ class _ComplainDetailState extends State<ComplainDetail> {
                                       style: const TextStyle(
                                         fontFamily: 'Kanit',
                                         color: Colors.white,
-                                        fontSize: 24,
+                                        fontSize: 16,
                                       ),
                                       textAlign: TextAlign.center,
                                     ),

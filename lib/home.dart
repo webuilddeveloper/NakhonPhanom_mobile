@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:marine_mobile/component/carousel_rotation.dart';
 import 'package:marine_mobile/pages/coming_soon.dart';
 import 'package:marine_mobile/pages/otop_product_list.dart';
+import 'package:marine_mobile/pages/poi/poi_list.dart';
 import 'package:marine_mobile/pages/welfare_list.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -21,17 +22,6 @@ import 'pages/news/news_form.dart';
 import 'pages/news/news_list.dart';
 import 'shared/api_provider.dart';
 import 'package:intl/intl.dart';
-// import 'package:marine_mobile/pages/about_us/about_us_form.dart';
-// import 'package:marine_mobile/pages/complain/complain.dart';
-// import 'package:marine_mobile/pages/license/check_license_list_category.dart';
-// import 'package:marine_mobile/pages/my_qr_code.dart';
-// import 'package:marine_mobile/pages/question/question_list.dart';
-// import 'package:marine_mobile/pages/training_course/training_course_list_category.dart';
-
-// import 'package:marine_mobile/component/material/check_avatar.dart';
-// import 'package:marine_mobile/pages/license/renew_license.dart';
-// import 'package:qr_flutter/qr_flutter.dart';
-// import 'pages/knowledge/knowledge_list.dart';
 
 // ignore: must_be_immutable
 class HomePage extends StatefulWidget {
@@ -141,11 +131,11 @@ class HomePageState extends State<HomePage> {
       onRefresh: _onRefresh,
       onLoading: _onLoading,
       child: ListView(
-        padding: EdgeInsets.zero, // ลบ padding ที่อาจทำให้เกิดช่องว่าง
+        padding: EdgeInsets.zero,
         children: [
           _buildHeader(),
           _buildbody(),
-          const SizedBox(height: 20),
+          const SizedBox(height: 12),
           _buildRotation(),
           const SizedBox(height: 20),
           _buildNews(),
@@ -178,45 +168,57 @@ class HomePageState extends State<HomePage> {
             left: 12,
             right: 12,
             child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ComingSoon(),
-                  ),
-                );
-              },
-              child: Container(
-                height: 80,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [Color(0xFFe7b014), Color(0xFFfad84c)],
-                      stops: [0.0, 0.9]),
-                  borderRadius: const BorderRadius.all(Radius.circular(15)),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.location_pin,
-                      color: Colors.white,
-                      size: 42,
-                    ),
-                    // SizedBox(width: 10),
-                    Text(
-                      'แหล่งท่องเที่ยว',
-                      style: TextStyle(
-                        fontSize: 28,
-                        color: Colors.white,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PoiList(
+                        title: '',
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
+                  );
+                },
+                child: Container(
+                  height: 75,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        Color(0xFFe7b014),
+                        Color(0xFFfad84c),
+                      ],
+                      stops: [0.3, 0.9],
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 6,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.location_pin,
+                        color: Colors.white,
+                        size: 35,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'แหล่งท่องเที่ยว',
+                        style: const TextStyle(
+                          fontSize: 26,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
           ),
         ],
       ),
@@ -225,20 +227,13 @@ class HomePageState extends State<HomePage> {
 
   _buildbody() {
     return Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: InkWell(
               onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => ComingSoon(),
-                //   ),
-                // );
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -247,13 +242,13 @@ class HomePageState extends State<HomePage> {
                 );
               },
               child: Container(
-                height: 70,
+                height: 55,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
                       colors: [Color(0xFF9e6e19), Color(0xFFe7b014)],
-                      stops: [0.0, 0.9]),
+                      stops: [0.0, 0.8]),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
@@ -262,12 +257,13 @@ class HomePageState extends State<HomePage> {
                     Icon(
                       Icons.assignment_outlined,
                       color: Colors.white,
-                      size: 30,
+                      size: 20,
                     ),
+                    const SizedBox(width: 5),
                     Text(
                       'สินค้า OTOP',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                         color: Colors.white,
                       ),
                     ),
@@ -276,17 +272,10 @@ class HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          SizedBox(width: 12),
+          SizedBox(width: 16),
           Expanded(
             child: InkWell(
               onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => ComingSoon(),
-                //   ),
-                // );
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -295,13 +284,13 @@ class HomePageState extends State<HomePage> {
                 );
               },
               child: Container(
-                height: 70,
+                height: 55,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
                       colors: [Color(0xFF9e6e19), Color(0xFFe7b014)],
-                      stops: [0.0, 0.9]),
+                      stops: [0.0, 0.8]),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
@@ -310,12 +299,13 @@ class HomePageState extends State<HomePage> {
                     Icon(
                       Icons.wallet_giftcard_sharp,
                       color: Colors.white,
-                      size: 30,
+                      size: 20,
                     ),
+                    const SizedBox(width: 5),
                     Text(
                       'สวัสดิการ',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                         color: Colors.white,
                       ),
                     ),
@@ -444,8 +434,8 @@ class HomePageState extends State<HomePage> {
                     _newsList = snapshot.data; // หน้าแรก - แทนที่
                   }
                 }
-                print('=============futureNews===============');
-                print(snapshot.data);
+                // print('=============futureNews===============');
+                // print(snapshot.data);
                 return Center(
                   child: GridView.builder(
                     padding: EdgeInsets.zero,
@@ -612,11 +602,9 @@ class HomePageState extends State<HomePage> {
       'skip': 0,
       'limit': 10,
     });
-    //  Future<dynamic>? _futureRotation = Future.value();
 
     _futureMainPopUp = postDio('${mainPopupHomeApi}read', {'limit': 10});
 
-    //read profile
     profileCode = (await storage.read(key: 'profileCode2'))!;
     if (profileCode != '') {
       setState(() {
@@ -662,7 +650,7 @@ class HomePageState extends State<HomePage> {
 
   void _onRefresh() async {
     _currentNewsPage = 0;
-    _hasMoreNews = true; // รีเซ็ตค่านี้เพื่อให้สามารถโหลดเพิ่มได้
+    _hasMoreNews = true;
 
     try {
       var newsData = await postDio('${newsApi}read', {
@@ -672,11 +660,10 @@ class HomePageState extends State<HomePage> {
       });
 
       setState(() {
-        _newsList = newsData ?? []; // ป้องกันกรณี null
+        _newsList = newsData ?? [];
         print("รีเฟรชข้อมูลเสร็จสิ้น: ${_newsList.length} รายการ");
       });
 
-      // ตรวจสอบว่ายังมีข้อมูลเพิ่มเติมหรือไม่
       if (newsData == null || newsData.length < _newsLimit) {
         _hasMoreNews = false;
       }
@@ -760,15 +747,45 @@ class HomePageState extends State<HomePage> {
   }
 
   _getLocation() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.best);
-    List<Placemark> placemarks = await placemarkFromCoordinates(
-      position.latitude,
-      position.longitude,
-    );
-    setState(() {
-      latLng = LatLng(position.latitude, position.longitude);
-      currentLocation = placemarks.first.administrativeArea!;
-    });
+    try {
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        print('Location services are disabled.');
+
+        return;
+      }
+
+      LocationPermission permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          print('Location permissions are denied');
+          return;
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        print(
+            'Location permissions are permanently denied, we cannot request permissions.');
+
+        return;
+      }
+
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.best);
+
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+
+      setState(() {
+        latLng = LatLng(position.latitude, position.longitude);
+        currentLocation = placemarks.first.administrativeArea ?? 'Unknown';
+      });
+    } catch (e) {
+      print('Error getting location: $e');
+    }
   }
 }

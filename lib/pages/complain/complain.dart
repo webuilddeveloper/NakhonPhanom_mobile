@@ -48,19 +48,19 @@ class _ComplainListCategoryState extends State<ComplainListCategory> {
                         style: TextStyle(
                           fontFamily: '',
                           fontWeight: FontWeight.w600,
-                          fontSize: 45,
+                          fontSize: 36,
                           color: Color(0xFFe7b014),
                         ),
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.1),
+                          height: MediaQuery.of(context).size.height * 0.08),
                       const Text(
                         'รับเรื่องร้องเรียน',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'Kanit',
                           fontWeight: FontWeight.w600,
-                          fontSize: 50,
+                          fontSize: 36,
                           color: Color(0xFFe7b014),
                         ),
                       ),

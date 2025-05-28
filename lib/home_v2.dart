@@ -531,23 +531,23 @@ class _HomePageV2State extends State<HomePageV2> {
       color: Colors.white,
       child: Row(
         children: [
-          imageItem(
-            'จุดบริการ',
-            '(Service Station)',
-            'assets/background/service_background.png',
-            1,
-            callback: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PoiList(
-                    title: 'จุดบริการ',
-                    latLng: latLng,
-                  ),
-                ),
-              );
-            },
-          ),
+          // imageItem(
+          //   'จุดบริการ',
+          //   '(Service Station)',
+          //   'assets/background/service_background.png',
+          //   1,
+          //   callback: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => PoiList(
+          //           title: 'จุดบริการ',
+          //           latLng: latLng,
+          //         ),
+          //       ),
+          //     );
+          //   },
+          // ),
           imageItem(
               'เบอร์โทรฉุกเฉิน', '(SOS)', 'assets/background/hotline.png', 1,
               callback: () {

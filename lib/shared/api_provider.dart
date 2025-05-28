@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -40,13 +42,24 @@ const serverNpm = 'http://gateway.we-builds.com/nakhonphanom-api';
 const serverUpload = '$serverPrefix/khubdeedlt-document/upload';
 const serverMW = 'http://122.155.223.63/td-khub-dee-middleware-api/';
 
+//new
+const newsApi = serverNpm + '/m/news/';
+
+//banner
+const mainBannerApi = serverNpm + '/Banner/';
+
+//rotation
+const rotationApi = serverNpm + '/m/rotation/';
+//Category
+const reporterCategoryApi = serverNpm + '/reporter/category/';
+
 const sharedApi = server + 'configulation/shared/';
 const registerApi = server + 'm/register/';
-const newsApi = serverNpm + '/m/news/';
+
 const newsGalleryApi = 'm/news/gallery/read';
 const pollApi = server + 'm/poll/';
-const poiApi = server + 'm/poi/';
-const poiGalleryApi = server + 'm/poi/gallery/read';
+const poiApi = serverNpm + '/poi/';
+const poiGalleryApi = serverNpm + '/poi/gallery/read';
 const faqApi = server + 'm/faq/';
 const knowledgeApi = server + 'm/knowledge/';
 const cooperativeApi = server + 'm/cooperativeForm/';
@@ -71,14 +84,9 @@ const fundGalleryApi = server + 'm/fund/gallery/read';
 const warningApi = server + 'm/warning/';
 const warningGalleryApi = 'm/warning/gallery/read';
 
-//banner
-const mainBannerApi = serverNpm + '/Banner/'; // NPM
-
 const contactBannerApi = server + 'm/Banner/contact/';
 const reporterBannerApi = server + 'm/Banner/reporter/';
 
-//rotation
-const rotationApi = serverNpm + '/m/rotation/';
 const mainRotationApi = server + 'm/Rotation/main/';
 const rotationGalleryApi = 'm/rotation/gallery/read';
 
@@ -89,7 +97,7 @@ const forceAdsApi = server + 'm/ForceAds/';
 // comment
 const newsCommentApi = server + 'm/news/comment/';
 const welfareCommentApi = server + 'm/welfare/comment/';
-const poiCommentApi = server + 'm/poi/comment/';
+const poiCommentApi = serverNpm + '/poi/comment/';
 const fundCommentApi = server + 'm/fund/comment/';
 const warningCommentApi = server + 'm/warning/comment/';
 
@@ -102,8 +110,8 @@ const contactCategoryApi = server + 'm/contact/category/';
 const welfareCategoryApi = server + 'm/welfare/category/';
 const fundCategoryApi = server + 'm/fund/category/';
 const pollCategoryApi = server + 'm/poll/category/';
-const poiCategoryApi = server + 'm/poi/category/';
-const reporterCategoryApi = serverNpm + '/reporter/category/';
+const poiCategoryApi = serverNpm + '/poi/category/';
+
 const warningCategoryApi = server + 'm/warning/category/';
 const comingSoonApi = server + 'm/comingsoon/read';
 const comingSoonGalleryApi = server + 'm/comingsoon/gallery/read';
@@ -117,28 +125,29 @@ const privilegeSpecialCategoryReadApi =
     'http://122.155.223.63/td-we-mart-api/m/privilege/category/read';
 
 Future<dynamic> postCategory(String url, dynamic criteria) async {
-  final storage = new FlutterSecureStorage();
-  var value = await storage.read(key: 'dataUserLoginDDPM');
-  var dataUser = json.decode(value!);
-  List<dynamic> dataOrganization = [];
-  dataOrganization =
-      dataUser['countUnit'] != '' ? json.decode(dataUser['countUnit']) : [];
+  final storage = FlutterSecureStorage();
+
+  var value = await storage.read(key: 'dataUserLoginKSP');
+  var dataUser = value != null ? json.decode(value) : {};
+
+  List<dynamic> dataOrganization =
+      dataUser['countUnit'] != null && dataUser['countUnit'] != ''
+          ? json.decode(dataUser['countUnit'])
+          : [];
 
   var body = json.encode({
     "permission": "all",
-    "skip": criteria['skip'] != null ? criteria['skip'] : 0,
-    "limit": criteria['limit'] != null ? criteria['limit'] : 1,
-    "code": criteria['code'] != null ? criteria['code'] : '',
-    "reference": criteria['reference'] != null ? criteria['reference'] : '',
-    "description":
-        criteria['description'] != null ? criteria['description'] : '',
-    "category": criteria['category'] != null ? criteria['category'] : '',
-    "keySearch": criteria['keySearch'] != null ? criteria['keySearch'] : '',
-    "username": criteria['username'] != null ? criteria['username'] : '',
-    "isHighlight":
-        criteria['isHighlight'] != null ? criteria['isHighlight'] : false,
-    "language": criteria['language'] != null ? criteria['language'] : 'th',
-    "organization": dataOrganization != null ? dataOrganization : [],
+    "skip": criteria['skip'] ?? 0,
+    "limit": criteria['limit'] ?? 1,
+    "code": criteria['code'] ?? '',
+    "reference": criteria['reference'] ?? '',
+    "description": criteria['description'] ?? '',
+    "category": criteria['category'] ?? '',
+    "keySearch": criteria['keySearch'] ?? '',
+    "username": criteria['username'] ?? '',
+    "isHighlight": criteria['isHighlight'] ?? false,
+    "language": criteria['language'] ?? 'th',
+    "organization": dataOrganization,
   });
 
   var response = await http.post(Uri.parse(url), body: body, headers: {
@@ -147,46 +156,50 @@ Future<dynamic> postCategory(String url, dynamic criteria) async {
   });
 
   var data = json.decode(response.body);
+  print('-----------postCategory---1---------');
+  print('url: $url');
+  print('criteria: $criteria');
+  print('objectData: ${data['objectData']}');
 
   List<dynamic> list = [
     {'code': "", 'title': 'ทั้งหมด'}
   ];
-  list = [...list, ...data['objectData']];
+  list = [...list, ...data['objectData'] ?? []];
 
   return Future.value(list);
 }
 
 Future<dynamic> post(String url, dynamic criteria) async {
-  final storage = new FlutterSecureStorage();
+  final storage = FlutterSecureStorage();
   var value = await storage.read(key: 'dataUserLoginDDPM');
-  var dataUser = json.decode(value!);
-  List<dynamic> dataOrganization = [];
-  dataOrganization =
-      dataUser['countUnit'] != '' ? json.decode(dataUser['countUnit']) : [];
+  var dataUser = value != null ? json.decode(value) : {};
+
+  List<dynamic> dataOrganization =
+      dataUser['countUnit'] != null && dataUser['countUnit'] != ''
+          ? json.decode(dataUser['countUnit'])
+          : [];
 
   var body = json.encode({
     "permission": "all",
-    "skip": criteria['skip'] != null ? criteria['skip'] : 0,
-    "limit": criteria['limit'] != null ? criteria['limit'] : 1,
-    "code": criteria['code'] != null ? criteria['code'] : '',
-    "reference": criteria['reference'] != null ? criteria['reference'] : '',
-    "description":
-        criteria['description'] != null ? criteria['description'] : '',
-    "category": criteria['category'] != null ? criteria['category'] : '',
-    "keySearch": criteria['keySearch'] != null ? criteria['keySearch'] : '',
-    "username": criteria['username'] != null ? criteria['username'] : '',
-    "firstName": criteria['firstName'] != null ? criteria['firstName'] : '',
-    "lastName": criteria['lastName'] != null ? criteria['lastName'] : '',
-    "title": criteria['title'] != null ? criteria['title'] : '',
-    "answer": criteria['answer'] != null ? criteria['answer'] : '',
-    "isHighlight":
-        criteria['isHighlight'] != null ? criteria['isHighlight'] : false,
-    "createBy": criteria['createBy'] != null ? criteria['createBy'] : '',
-    "isPublic": criteria['isPublic'] != null ? criteria['isPublic'] : false,
-    "language": criteria['language'] != null ? criteria['language'] : 'th',
-    "organization": dataOrganization != null ? dataOrganization : [],
-    "latitude": criteria['latitude'] != null ? criteria['latitude'] : 0,
-    "longitude": criteria['longitude'] != null ? criteria['longitude'] : 0,
+    "skip": criteria['skip'] ?? 0,
+    "limit": criteria['limit'] ?? 1,
+    "code": criteria['code'] ?? '',
+    "reference": criteria['reference'] ?? '',
+    "description": criteria['description'] ?? '',
+    "category": criteria['category'] ?? '',
+    "keySearch": criteria['keySearch'] ?? '',
+    "username": criteria['username'] ?? '',
+    "firstName": criteria['firstName'] ?? '',
+    "lastName": criteria['lastName'] ?? '',
+    "title": criteria['title'] ?? '',
+    "answer": criteria['answer'] ?? '',
+    "isHighlight": criteria['isHighlight'] ?? false,
+    "createBy": criteria['createBy'] ?? '',
+    "isPublic": criteria['isPublic'] ?? false,
+    "language": criteria['language'] ?? 'th',
+    "organization": dataOrganization,
+    "latitude": criteria['latitude'] ?? 0,
+    "longitude": criteria['longitude'] ?? 0,
   });
 
   var response = await http.post(Uri.parse(url), body: body, headers: {
@@ -194,8 +207,13 @@ Future<dynamic> post(String url, dynamic criteria) async {
     "Content-Type": "application/json"
   });
 
+  print('-----------post------------');
+  print('url: $url');
+  print('criteria: $criteria');
+  print('objectData: ${response.body}');
+
   var data = json.decode(response.body);
-  return Future.value(data['objectData']);
+  return Future.value(data['objectData'] ?? {});
 }
 
 Future<dynamic> postAny(String url, dynamic criteria) async {
@@ -428,9 +446,7 @@ Future<dynamic> postDio(String url, dynamic criteria) async {
   final profileCode = await storage.read(key: 'profileCode2');
   final idcard = await storage.read(key: 'idcard');
   final username = await storage.read(key: 'username');
-  print('>>>>>>>>>>>postDio');
-  print('url: ${url}');
-  print('criteria : ${criteria}');
+
   if (profileCode != '' && profileCode != null) {
     criteria = {'profileCode': profileCode, ...criteria};
   }

@@ -52,7 +52,7 @@ class _MenuState extends State<Menu> {
       //   title: 'แจ้งเตือน',
       // ),
       HistoryPage(),
-      UserInformationPage(),
+      UserInformationPage(changePage: _changePage),
     ];
     super.initState();
   }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:flutter_datetime_picker/flutter_datetime_picker.dart' as datatTimePicker;
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as datatTimePicker;
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
+    as datatTimePicker;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 
@@ -61,12 +62,14 @@ class _RegisterWithDriverLicensePageState
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
-      onWillPop: () async => Navigator.of(context).pushAndRemoveUntil(
+      onWillPop: () async => Navigator.of(context)
+          .pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) => HomePageV2(),
         ),
         (Route<dynamic> route) => false,
-      ).then((result) {
+      )
+          .then((result) {
         return false;
       }),
       child: Scaffold(
@@ -378,7 +381,8 @@ class _RegisterWithDriverLicensePageState
                             ),
                           ),
                           const SizedBox(height: 30),
-                          Container(height: 0.5, color: const Color(0xFFcfcfcf)),
+                          Container(
+                              height: 0.5, color: const Color(0xFFcfcfcf)),
                           InkWell(
                             onTap: () {
                               Navigator.pop(context, false);
@@ -402,7 +406,8 @@ class _RegisterWithDriverLicensePageState
                               ),
                             ),
                           ),
-                          Container(height: 0.5, color: const Color(0xFFcfcfcf)),
+                          Container(
+                              height: 0.5, color: const Color(0xFFcfcfcf)),
                           Expanded(
                               child: InkWell(
                             onTap: () {
@@ -497,7 +502,8 @@ class _RegisterWithDriverLicensePageState
                             ),
                           ),
                           const SizedBox(height: 28),
-                          Container(height: 0.5, color: const Color(0xFFcfcfcf)),
+                          Container(
+                              height: 0.5, color: const Color(0xFFcfcfcf)),
                           InkWell(
                             onTap: () {
                               Navigator.pop(context, false);
@@ -515,7 +521,8 @@ class _RegisterWithDriverLicensePageState
                               ),
                             ),
                           ),
-                          Container(height: 0.5, color: const Color(0xFFcfcfcf)),
+                          Container(
+                              height: 0.5, color: const Color(0xFFcfcfcf)),
                           InkWell(
                             onTap: () {
                               Navigator.pop(context, false);
@@ -612,7 +619,8 @@ class _RegisterWithDriverLicensePageState
                 value: selectData,
                 onChanged: (value) {
                   setState(() {
-                    if (typeDropdown == "docType") _selecteddocType = value.toString();
+                    if (typeDropdown == "docType")
+                      _selecteddocType = value.toString();
                     if (typeDropdown == "Plt") _selectedPlt = value.toString();
                   });
                 },
