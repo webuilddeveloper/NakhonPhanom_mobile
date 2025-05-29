@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-header(
+PreferredSizeWidget header(
   BuildContext context,
   Function functionGoBack, {
   String title = '',
@@ -11,72 +11,72 @@ header(
   String menu = '',
 }) {
   return PreferredSize(
-    preferredSize: Size.fromHeight(50),
+    preferredSize: const Size.fromHeight(50),
     child: AppBar(
-      centerTitle: true,
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/bg_header.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        // decoration: BoxDecoration(
-        //   gradient: LinearGradient(
-        //     begin: Alignment.centerLeft,
-        //     end: Alignment.centerRight,
-        //     colors: <Color>[
-        //       Color(0xFFFF7900),
-        //       Color(0xFFFF7900),
-        //     ],
-        //   ),
-        // ),
-      ),
-      backgroundColor: Color(0xFFFF7900),
+      backgroundColor: Color(0xFFe7b014),
       elevation: 0.0,
-      titleSpacing: 5,
+      centerTitle: true,
       automaticallyImplyLeading: false,
+      titleSpacing: 5,
+
+      // Title
       title: Text(
         title,
         textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 13,
+        style: const TextStyle(
+          fontSize: 20,
+          color: Colors.white,
           fontWeight: FontWeight.normal,
           fontFamily: 'Kanit',
         ),
       ),
+
+      // Back Button (Left)
       leading: isButtonLeft
-          ? InkWell(
-              onTap: () => functionGoBack(),
-              child: Container(
-                padding: EdgeInsets.all(12),
-                child: Image.asset(
-                  "assets/icons/arrow_left_1.png",
-                  color: Colors.white,
+          ? Padding(
+              padding: const EdgeInsets.only(left: 10.0, bottom: 6.0),
+              child: InkWell(
+                onTap: () => functionGoBack(),
+                borderRadius: BorderRadius.circular(10.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  padding: const EdgeInsets.all(12.0),
+                  child: const Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    color: Colors.white,
+                    size: 20.0,
+                  ),
                 ),
               ),
             )
           : null,
-      actions: <Widget>[
-        isButtonRight
-            ? Container(
-                child: Container(
-                  child: Container(
-                    width: 42.0,
-                    height: 42.0,
-                    margin: EdgeInsets.only(top: 6.0, right: 10.0, bottom: 6.0),
-                    padding: EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () => rightButton!(),
-                      child: Image.asset(
-                        imageRightButton,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+
+      // Right Button (Optional)
+      actions: [
+        if (isButtonRight)
+          Padding(
+            padding: const EdgeInsets.only(top: 6.0, right: 10.0, bottom: 6.0),
+            child: InkWell(
+              onTap: () => rightButton?.call(),
+              borderRadius: BorderRadius.circular(10.0),
+              child: Container(
+                width: 42.0,
+                height: 42.0,
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
-              )
-            : Container(),
+                child: Image.asset(
+                  imageRightButton,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
       ],
     ),
   );

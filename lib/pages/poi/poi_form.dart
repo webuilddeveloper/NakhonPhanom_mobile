@@ -93,13 +93,7 @@ class _PoiForm extends State<PoiForm> {
           child: ListView(
             shrinkWrap: true,
             children: [
-              // Expanded(
-              //   child:
               Stack(
-                // fit: StackFit.expand,
-                // alignment: AlignmentDirectional.bottomCenter,
-                // shrinkWrap: true,
-                // physics: ClampingScrollPhysics(),
                 children: [
                   ContentPoi(
                     pathShare: 'content/poi/',
@@ -117,7 +111,6 @@ class _PoiForm extends State<PoiForm> {
                   ),
                 ],
               ),
-
               widget.urlComment != '' ? comment! : Container(),
             ],
           ),

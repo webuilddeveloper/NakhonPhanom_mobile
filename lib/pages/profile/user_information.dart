@@ -14,6 +14,8 @@ import 'register_with_license_plate.dart';
 import 'setting_notification.dart';
 
 class UserInformationPage extends StatefulWidget {
+  UserInformationPage({super.key, this.changePage});
+  Function? changePage;
   @override
   _UserInformationPageState createState() => _UserInformationPageState();
 }
@@ -64,8 +66,8 @@ class _UserInformationPageState extends State<UserInformationPage> {
       });
   }
 
-  _goBack() async {}
   int SelectedIndex = 0;
+
   card(dynamic model) {
     double statusBarHeight = MediaQuery.of(context).padding.top;
     return SingleChildScrollView(
@@ -75,7 +77,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
             alignment: Alignment.topCenter,
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.6,
+                // height: MediaQuery.of(context).size.height * 0.6,
                 child: Stack(
                   children: [
                     SizedBox(
@@ -97,17 +99,15 @@ class _UserInformationPageState extends State<UserInformationPage> {
                   ],
                 ),
               ),
-              Container(
-                height: statusBarHeight,
-                color: Colors.transparent, // สีของแถบสถานะ
-              ),
               Positioned(
                 top: statusBarHeight + 10,
                 left: 10,
                 child: InkWell(
-                  onTap: () => _goBack(),
+                  onTap: () {
+                    widget.changePage!(0);
+                  },
                   child: Container(
-                    padding: EdgeInsets.all(8),
+                    padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.circular(15),
@@ -126,7 +126,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
                 child: InkWell(
                   onTap: () {},
                   child: Container(
-                    padding: EdgeInsets.all(8),
+                    padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.circular(15),
@@ -140,134 +140,135 @@ class _UserInformationPageState extends State<UserInformationPage> {
                 ),
               ),
               Positioned(
-                  top: statusBarHeight + 80,
-                  right: 10,
-                  child: Column(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            SelectedIndex = 0;
-                          });
-                        },
-                        child: Container(
-                          height: 30,
-                          width: 50,
-                          decoration: BoxDecoration(
+                top: statusBarHeight + 70,
+                right: 10,
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          SelectedIndex = 0;
+                        });
+                      },
+                      child: Container(
+                        height: 30,
+                        width: 45,
+                        decoration: BoxDecoration(
+                          color: SelectedIndex == 0
+                              ? Color(0xFF9e6e19)
+                              : Colors.white,
+                          border: Border.all(
                             color: SelectedIndex == 0
-                                ? Color(0xFF9e6e19)
-                                : Colors.white,
-                            border: Border.all(
+                                ? Colors.transparent
+                                : Color(0xFF9e6e19),
+
+                            // width: 1.5,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'TH',
+                            style: TextStyle(
+                              fontFamily: 'Sarabun',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
                               color: SelectedIndex == 0
-                                  ? Colors.transparent
+                                  ? Colors.white
                                   : Color(0xFF9e6e19),
-
-                              // width: 1.5,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'TH',
-                              style: TextStyle(
-                                fontFamily: 'Sarabun',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: SelectedIndex == 0
-                                    ? Colors.white
-                                    : Color(0xFF9e6e19),
-                              ),
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(height: 12),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            SelectedIndex = 1;
-                          });
-                        },
-                        child: Container(
-                          height: 30,
-                          width: 50,
-                          decoration: BoxDecoration(
+                    ),
+                    SizedBox(height: 12),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          SelectedIndex = 1;
+                        });
+                      },
+                      child: Container(
+                        height: 30,
+                        width: 45,
+                        decoration: BoxDecoration(
+                          color: SelectedIndex == 1
+                              ? Color(0xFF9e6e19)
+                              : Colors.white,
+                          border: Border.all(
                             color: SelectedIndex == 1
-                                ? Color(0xFF9e6e19)
-                                : Colors.white,
-                            border: Border.all(
+                                ? Colors.transparent
+                                : Color(0xFF9e6e19),
+
+                            // width: 1.5,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'EN',
+                            style: TextStyle(
+                              fontFamily: 'Sarabun',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
                               color: SelectedIndex == 1
-                                  ? Colors.transparent
+                                  ? Colors.white
                                   : Color(0xFF9e6e19),
-
-                              // width: 1.5,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'EN',
-                              style: TextStyle(
-                                fontFamily: 'Sarabun',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: SelectedIndex == 1
-                                    ? Colors.white
-                                    : Color(0xFF9e6e19),
-                              ),
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(height: 12),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            SelectedIndex = 2;
-                          });
-                        },
-                        child: Container(
-                          height: 30,
-                          width: 50,
-                          decoration: BoxDecoration(
+                    ),
+                    SizedBox(height: 12),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          SelectedIndex = 2;
+                        });
+                      },
+                      child: Container(
+                        height: 30,
+                        width: 45,
+                        decoration: BoxDecoration(
+                          color: SelectedIndex == 2
+                              ? Color(0xFF9e6e19)
+                              : Colors.white,
+                          border: Border.all(
                             color: SelectedIndex == 2
-                                ? Color(0xFF9e6e19)
-                                : Colors.white,
-                            border: Border.all(
-                              color: SelectedIndex == 2
-                                  ? Colors.transparent
-                                  : Color(0xFF9e6e19),
+                                ? Colors.transparent
+                                : Color(0xFF9e6e19),
 
-                              // width: 1.5,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
+                            // width: 1.5,
                           ),
-                          child: Center(
-                            child: Text(
-                              'CH',
-                              style: TextStyle(
-                                fontFamily: 'Sarabun',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: SelectedIndex == 2
-                                    ? Colors.white
-                                    : Color(0xFF9e6e19),
-                              ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'CH',
+                            style: TextStyle(
+                              fontFamily: 'Sarabun',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: SelectedIndex == 2
+                                  ? Colors.white
+                                  : Color(0xFF9e6e19),
                             ),
                           ),
                         ),
                       ),
-                    ],
-                  )),
+                    ),
+                  ],
+                ),
+              ),
               Container(
-                height: 130,
-                width: 130,
-                margin: EdgeInsets.only(top: 80),
+                height: 110,
+                width: 110,
+                margin: EdgeInsets.only(top: 70),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: Colors.transparent, // สีของขอบวงกลม
-                    width: 1, // ความหนาของขอบ
+                    color: Colors.transparent,
+                    width: 1,
                   ),
                 ),
                 child: ClipOval(
@@ -288,12 +289,13 @@ class _UserInformationPageState extends State<UserInformationPage> {
                 ),
               ),
               Container(
-                height: 60,
+                height: 35,
                 margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.22,
-                    left: 20.0,
-                    right: 20.0,
-                    bottom: 30.0),
+                  top: MediaQuery.of(context).size.height * 0.22,
+                  left: 20.0,
+                  right: 20.0,
+                  bottom: 30.0,
+                ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -318,10 +320,10 @@ class _UserInformationPageState extends State<UserInformationPage> {
                 ),
               ),
               Container(
-                height: 40,
-                padding: const EdgeInsets.symmetric(horizontal: 12),
+                height: 35,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.28,
+                  top: MediaQuery.of(context).size.height * 0.27,
                   left: 20.0,
                   right: 20.0,
                   bottom: 30.0,
@@ -341,14 +343,14 @@ class _UserInformationPageState extends State<UserInformationPage> {
                     Icon(
                       Icons.check_circle,
                       color: Color(0xFF9e6e19),
-                      size: 25,
+                      size: 20,
                     ),
-                    SizedBox(width: 8),
+                    SizedBox(width: 4),
                     Text(
                       'ชาวนครพนม',
                       style: TextStyle(
                         color: Color(0xFF9e6e19),
-                        fontSize: 16,
+                        fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -370,38 +372,52 @@ class _UserInformationPageState extends State<UserInformationPage> {
                     Column(
                       children: [
                         Container(
-                          height: 50,
-                          width: 50,
+                          height: 45,
+                          width: 45,
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(15),
                           ),
                           child: Icon(
                             Icons.qr_code_scanner,
                             color: Colors.black,
-                            size: 35,
+                            size: 25,
                           ),
                         ),
-                        Text('QR Code')
+                        Text(
+                          'QR Code',
+                          style: TextStyle(
+                            fontFamily: 'Sarabun',
+                            fontSize: 12,
+                            color: Colors.black,
+                          ),
+                        )
                       ],
                     ),
-                    SizedBox(width: 20),
+                    SizedBox(width: 12),
                     Column(
                       children: [
                         Container(
-                          height: 50,
-                          width: 50,
+                          height: 45,
+                          width: 45,
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(15),
                           ),
                           child: Icon(
                             Icons.edit_square,
                             color: Colors.black,
-                            size: 35,
+                            size: 25,
                           ),
                         ),
-                        Text('แก่ไขข้อมูล')
+                        Text(
+                          'แก้ไขข้อมูล',
+                          style: TextStyle(
+                            fontFamily: 'Sarabun',
+                            fontSize: 12,
+                            color: Colors.black,
+                          ),
+                        )
                       ],
                     ),
                   ],
@@ -434,7 +450,6 @@ class _UserInformationPageState extends State<UserInformationPage> {
                           ),
                         ),
                       ),
-
                       InkWell(
                         onTap: () => Navigator.push(
                           context,
@@ -666,7 +681,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Container(
-        height: 100,
+        // height: 100,
         padding: EdgeInsets.only(bottom: 2.0),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.white12),
@@ -680,35 +695,37 @@ class _UserInformationPageState extends State<UserInformationPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        fontFamily: 'Sarabun',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18.0,
-                        color: Theme.of(context).primaryColor,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                          fontFamily: 'Sarabun',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18.0,
+                          color: Theme.of(context).primaryColor,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 8),
-                  Container(
-                    child: Text(
-                      subtitle,
-                      style: TextStyle(
-                        fontFamily: 'Sarabun',
-                        fontSize: 12.0,
-                        color: Colors.black,
+                    SizedBox(height: 8),
+                    Container(
+                      child: Text(
+                        subtitle,
+                        style: TextStyle(
+                          fontFamily: 'Sarabun',
+                          fontSize: 12.0,
+                          color: Colors.black,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.start,
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.start,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Container(
                 height: 35,

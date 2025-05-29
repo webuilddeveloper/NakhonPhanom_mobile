@@ -44,7 +44,7 @@ class _PoiListVertical extends State<PoiListVertical> {
             );
           } else {
             return Container(
-              padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+              // padding: const EdgeInsets.only(left: 10.0, right: 5.0),
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
@@ -93,7 +93,7 @@ class _PoiListVertical extends State<PoiListVertical> {
                               ),
                               color: Colors.grey.withAlpha(220),
                               image: DecorationImage(
-                                fit: BoxFit.fill,
+                                fit: BoxFit.cover,
                                 image: NetworkImage(
                                   snapshot.data[index]['imageUrl'],
                                 ),
