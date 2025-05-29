@@ -14,7 +14,7 @@ import 'facebook_firebase.dart';
 import 'google.dart';
 import 'line.dart';
 
-const appName = 'Khub Dee DLT';
+const appName = 'Smart นครพนม';
 const versionName = '0.0.1';
 const versionNumber = 1;
 
