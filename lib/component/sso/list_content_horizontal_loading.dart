@@ -50,10 +50,6 @@ class _ListContentHorizontalLoading extends State<ListContentHorizontalLoading>
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(5),
-      // decoration: BoxDecoration(
-      // borderRadius: new BorderRadius.circular(5),
-      // color: Color(0xFF000070),
-      // color: Colors.transparent),
       width: 150,
       child: AnimatedBuilder(
         animation: _controller!,

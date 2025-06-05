@@ -26,7 +26,6 @@ class _SearchBox extends State<KeySearch> {
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
     txtDescription.dispose();
     super.dispose();
   }
@@ -34,8 +33,7 @@ class _SearchBox extends State<KeySearch> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    // double height = MediaQuery.of(context).size.height;
-    // double statusBarHeight = MediaQuery.of(context).padding.top;
+
     return Container(
         margin: EdgeInsets.symmetric(horizontal: 10.0),
         padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -46,7 +44,7 @@ class _SearchBox extends State<KeySearch> {
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 0,
               blurRadius: 7,
-              offset: Offset(0, 3), // changes position of shadow
+              offset: Offset(0, 3),
             ),
           ],
           borderRadius: new BorderRadius.circular(6.0),
@@ -59,7 +57,7 @@ class _SearchBox extends State<KeySearch> {
               width: width - 90.0,
               child: TextField(
                 autofocus: false,
-                cursorColor: Colors.blue,
+                cursorColor: Theme.of(context).primaryColor,
                 controller: txtDescription,
                 onChanged: (text) {
                   onKeySearchChange!(txtDescription.text);

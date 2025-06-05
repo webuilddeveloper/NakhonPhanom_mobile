@@ -1,252 +1,245 @@
 import 'package:flutter/material.dart';
-
 import 'knowledge_form.dart';
 
 class KnowledgeListVertical extends StatefulWidget {
   const KnowledgeListVertical({
     super.key,
     this.site,
-    // this.model,
+    this.model,
   });
 
   final String? site;
-  // final Future<dynamic>? model;
+  final Future<dynamic>? model;
 
   @override
-  // ignore: library_private_types_in_public_api
-  _KnowledgeListVertical createState() => _KnowledgeListVertical();
+  State<KnowledgeListVertical> createState() => _KnowledgeListVerticalState();
 }
 
-class _KnowledgeListVertical extends State<KnowledgeListVertical> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  // final List<String> items =
-  //     List<String>.generate(10, (index) => "Item: ${++index}");
-
-  final List<Map<String, String>> modelData = [
-    {
-      'imageUrl':
-          'https://gateway.we-builds.com/wb-py-media/uploads/smart-security\\20250306-113801-1.jpg',
-      'title':
-          'กรมเจ้าท่ากับการแก้ไขปัญหาการทำประมงผิดกฎหมาย ขาดการรายงาน และไร้การควบคุม (IUU Fishing) ในยุค New Normal',
-      'code': 'K003',
-    },
-    {
-      'imageUrl':
-          'https://gateway.we-builds.com/wb-py-media/uploads/smart-security\\20250306-113801-1.jpg',
-      'title':
-          'กรมเจ้าท่ากับการแก้ไขปัญหาการทำประมงผิดกฎหมาย ขาดการรายงาน และไร้การควบคุม (IUU Fishing) ในยุค New Normal',
-      'code': 'K003',
-    },
-    {
-      'imageUrl':
-          'https://gateway.we-builds.com/wb-py-media/uploads/smart-security\\20250306-113801-1.jpg',
-      'title':
-          'กรมเจ้าท่ากับการแก้ไขปัญหาการทำประมงผิดกฎหมาย ขาดการรายงาน และไร้การควบคุม (IUU Fishing) ในยุค New Normal',
-      'code': 'K003',
-    },
-    {
-      'imageUrl':
-          'https://gateway.we-builds.com/wb-py-media/uploads/smart-security\\20250306-113801-1.jpg',
-      'title':
-          'กรมเจ้าท่ากับการแก้ไขปัญหาการทำประมงผิดกฎหมาย ขาดการรายงาน และไร้การควบคุม (IUU Fishing) ในยุค New Normal',
-      'code': 'K003',
-    },
-  ];
-
+class _KnowledgeListVerticalState extends State<KnowledgeListVertical> {
   @override
   Widget build(BuildContext context) {
-    if (modelData.isEmpty) {
-      return Container(
-        height: 200,
-        alignment: Alignment.center,
-        child: const Text(
-          'ไม่พบข้อมูล',
-          style: TextStyle(
-            fontSize: 18,
-            fontFamily: 'Sarabun',
-            color: Color.fromRGBO(0, 0, 0, 0.6),
-          ),
-        ),
-      );
-    }
-    return Container(
-      padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 1 / 1.1,
-        ),
-        physics: const ClampingScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: modelData.length,
-        itemBuilder: (context, index) {
-          return Column(
-            children: <Widget>[
-              SizedBox(
-                width: 150,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => KnowledgeForm(
-                          code: modelData[index]['code']!,
-                          urlComment: '',
-                        ),
-                      ),
-                    );
-                  },
+    return FutureBuilder<dynamic>(
+      future: widget.model,
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        // Loading state
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.85,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 16,
+              ),
+              physics: const ClampingScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: 6,
+              itemBuilder: (context, index) {
+                return Card(
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   child: Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 5.0,
-                      vertical: 0.0,
+                    padding: const EdgeInsets.all(8),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Center(
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          height: 16,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                      ],
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(
-                        modelData[index]['imageUrl']!,
-                        fit: BoxFit.cover,
-                        height: MediaQuery.of(context).size.height * 20 / 100,
-                      ),
+                  ),
+                );
+              },
+            ),
+          );
+        }
+
+        // Error state
+        if (snapshot.hasError) {
+          return Container(
+            height: 200,
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.error_outline, size: 48, color: Colors.red[300]),
+                const SizedBox(height: 16),
+                Text(
+                  'เกิดข้อผิดพลาด: ${snapshot.error}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Sarabun',
+                    color: Colors.red,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          );
+        }
+
+        // Empty state
+        if (!snapshot.hasData || snapshot.data.isEmpty) {
+          return Container(
+            height: 200,
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.library_books_outlined,
+                    size: 48, color: Colors.grey[400]),
+                const SizedBox(height: 16),
+                const Text(
+                  'ไม่พบข้อมูล',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'Sarabun',
+                    color: Color.fromRGBO(0, 0, 0, 0.6),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        // Data state
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.85,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 16,
+            ),
+            physics: const ClampingScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: snapshot.data.length,
+            itemBuilder: (context, index) {
+              final item = snapshot.data[index];
+              return Card(
+                elevation: 3,
+                shadowColor: Colors.black.withOpacity(0.1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    if (item['code'] != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              KnowledgeForm(code: item['code']),
+                        ),
+                      );
+                    }
+                  },
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              item['imageUrl'] ?? '',
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  color: Colors.grey[200],
+                                  child: Icon(
+                                    Icons.image_not_supported,
+                                    color: Colors.grey[400],
+                                    size: 32,
+                                  ),
+                                );
+                              },
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Container(
+                                  color: Colors.grey[200],
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            item['title'] ?? 'ไม่มีชื่อ',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontFamily: 'Sarabun',
+                              fontWeight: FontWeight.w600,
+                              color: Color.fromRGBO(0, 0, 0, 0.8),
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Container(
+                          height: 3,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Theme.of(context).primaryColor.withOpacity(0.3),
+                                Theme.of(context).primaryColor,
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ),
-              Center(
-                child: Image.asset('assets/images/bar.png'),
-              ),
-            ],
-          );
-        },
-      ),
+              );
+            },
+          ),
+        );
+      },
     );
-
-    // return FutureBuilder<dynamic>(
-    //   future: widget.model, // function where you call your api
-    //   builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-    //     // AsyncSnapshot<Your object type>
-    //     if (snapshot.hasData) {
-    //       if (snapshot.data.length == 0) {
-    //         return Container(
-    //           height: 200,
-    //           alignment: Alignment.center,
-    //           child: const Text(
-    //             'ไม่พบข้อมูล',
-    //             style: TextStyle(
-    //               fontSize: 18,
-    //               fontFamily: 'Sarabun',
-    //               color: Color.fromRGBO(0, 0, 0, 0.6),
-    //             ),
-    //           ),
-    //         );
-    //       } else {
-    //         return Container(
-    //           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-    //           child: GridView.builder(
-    //             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-    //               crossAxisCount: 2,
-    //               childAspectRatio: 1 / 1.1,
-    //             ),
-    //             physics: const ClampingScrollPhysics(),
-    //             shrinkWrap: true,
-    //             itemCount: snapshot.data.length,
-    //             itemBuilder: (context, index) {
-    //               return Column(
-    //                 children: <Widget>[
-    //                   SizedBox(
-    //                     width: 150,
-    //                     child: GestureDetector(
-    //                       onTap: () {
-    //                         Navigator.push(
-    //                           context,
-    //                           MaterialPageRoute(
-    //                             builder: (context) => KnowledgeForm(
-    //                               code: snapshot.data[index]['code'],
-    //                             ),
-    //                           ),
-    //                         );
-    //                       },
-    //                       child: Container(
-    //                         margin: const EdgeInsets.symmetric(
-    //                           horizontal: 5.0,
-    //                           vertical: 0.0,
-    //                         ),
-    //                         child: ClipRRect(
-    //                           borderRadius: BorderRadius.circular(8.0),
-    //                           child: Image.network(
-    //                             snapshot.data[index]['imageUrl'],
-    //                             fit: BoxFit.cover,
-    //                             height: MediaQuery.of(context).size.height *
-    //                                 20 /
-    //                                 100,
-    //                           ),
-    //                         ),
-    //                       ),
-    //                     ),
-    //                   ),
-    //                   Container(
-    //                     child: Center(
-    //                       child: Image.asset('assets/images/bar.png'),
-    //                     ),
-    //                   ),
-    //                 ],
-    //               );
-    //             },
-    //           ),
-    //         );
-    //       }
-    //     } else {
-    //       return Container(
-    //         height: 800,
-    //         padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-    //         child: GridView.count(
-    //           crossAxisCount: 2,
-    //           children: List.generate(
-    //             10,
-    //             (index) {
-    //               return Column(
-    //                 children: <Widget>[
-    //                   Expanded(
-    //                     child: GestureDetector(
-    //                       onTap: () {},
-    //                       child: Container(
-    //                         padding: const EdgeInsets.only(left: 30, right: 30),
-    //                         child: Container(
-    //                           decoration: new BoxDecoration(
-    //                             color: Colors.white,
-    //                             boxShadow: [
-    //                               BoxShadow(
-    //                                 color: Colors.grey.withOpacity(0.2),
-    //                                 spreadRadius: 0,
-    //                                 blurRadius: 7,
-    //                                 offset: const Offset(
-    //                                     0, 3), // changes position of shadow
-    //                               ),
-    //                             ],
-    //                             borderRadius: new BorderRadius.circular(6.0),
-    //                           ),
-    //                         ),
-    //                         // height: 205,
-    //                       ),
-    //                     ),
-    //                   ),
-    //                   Container(
-    //                     child: Center(
-    //                       child: Image.asset('assets/images/bar.png'),
-    //                     ),
-    //                   ),
-    //                 ],
-    //               );
-    //             },
-    //           ),
-    //         ),
-    //       );
-    //     }
-    //   },
-    // );
   }
 }

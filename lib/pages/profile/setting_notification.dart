@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:marine_mobile/component/header.dart';
 
 import '../../shared/api_provider.dart';
-import '../../widget/header.dart';
+
 import '../blank_page/dialog_fail.dart';
 import 'user_information.dart';
 
@@ -659,59 +660,7 @@ class _SettingNotificationPageState extends State<SettingNotificationPage> {
           );
         else
           return Scaffold(
-            // appBar: header(context, goBack, title: 'ตั้งค่าการแจ้งเตือน'),
-             appBar: AppBar(
-              // forceMaterialTransparency: true,
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              titleSpacing: 5,
-              automaticallyImplyLeading: false,
-              flexibleSpace: Container(
-                width: double.infinity,
-                padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).padding.top + 20,
-                  left: 15,
-                  right: 15,
-                ),
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        // alignment: Alignment.center,
-                        width: 35,
-                        decoration: BoxDecoration(
-                          color: Color(0XFF213F91),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.arrow_back_ios_new,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        'ข้อมูลสมาชิก',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Kanit',
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 30),
-                  ],
-                ),
-              ),
-            ),
+            appBar: header(context, goBack, title: 'ตั้งค่าการแจ้งเตือน'),
             backgroundColor: Colors.white,
             body: Container(
               child: ListView(

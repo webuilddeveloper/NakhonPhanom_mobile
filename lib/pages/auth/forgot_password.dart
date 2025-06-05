@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../login.dart';
+import 'package:marine_mobile/component/header.dart';
+
 import '../../shared/api_provider.dart';
-import '../../widget/header.dart';
+// import '../../widget/header.dart';
 import '../../widget/text_form_field.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -30,9 +31,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     postObjectData('m/Register/forgot/password', {
       'email': txtEmail.text,
     });
-    // final result = await postObjectData('m/Register/forgot/password', {
-    //   'email': txtEmail.text,
-    // });
 
     setState(() {
       txtEmail.text = '';
@@ -71,36 +69,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         );
       },
     );
-
-    // if (result['status'] == 'S') {
-    //   return showDialog(
-    //     context: context,
-    //     builder: (context) {
-    //       return AlertDialog(
-    //         content: Text(result['message'].toString()),
-    //       );
-    //     },
-    //   );
-    // } else {
-    //   return showDialog(
-    //     context: context,
-    //     builder: (context) {
-    //       return AlertDialog(
-    //         content: Text(result['message'].toString()),
-    //       );
-    //     },
-    //   );
-    // }
   }
 
   void goBack() async {
     Navigator.pop(context);
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => LoginPage(),
-    //   ),
-    // );
   }
 
   @override
@@ -108,17 +80,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        // image: DecorationImage(
-        //   image: AssetImage("assets/background/background_login.png"),
-        //   fit: BoxFit.cover,
-        // ),
       ),
       child: Scaffold(
-        appBar: header(context, goBack, title: 'ลืมรหัสผ่าน'),
+        appBar: header(context!, goBack, title: 'ลืมรหัสผ่าน'),
         backgroundColor: Colors.transparent,
         body: InkWell(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
+          focusColor: Colors.transparent,
           onTap: () {
             FocusScope.of(context!).unfocus();
           },
@@ -169,8 +138,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                 ),
                                 Center(
                                   child: Container(
-                                    width:
-                                        MediaQuery.of(context!).size.width * 0.7,
+                                    width: MediaQuery.of(context!).size.width *
+                                        0.7,
                                     margin: EdgeInsets.only(
                                       top: 20.0,
                                       bottom: 10.0,

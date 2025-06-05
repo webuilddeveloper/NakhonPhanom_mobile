@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../../component/material/custom_alert_dialog.dart';
+import 'package:marine_mobile/pages/notification/notification_list.dart';
+
 import '../../shared/api_provider.dart';
 import '../blank_page/dialog_fail.dart';
 
 import 'change_password.dart';
 import 'connect_social.dart';
 import 'edit_user_information.dart';
-import 'id_card_verification.dart';
+
 import 'identity_verification.dart';
-import 'register_with_diver_license.dart';
-import 'register_with_license_plate.dart';
+
 import 'setting_notification.dart';
 
 class UserInformationPage extends StatefulWidget {
@@ -23,13 +23,14 @@ class UserInformationPage extends StatefulWidget {
 class _UserInformationPageState extends State<UserInformationPage> {
   final storage = new FlutterSecureStorage();
   Future<dynamic>? _futureProfile;
-  Future<dynamic>? _futureAboutUs;
+  // Future<dynamic>? _futureAboutUs;
   dynamic _tempData = {'imageUrl': '', 'firstName': '', 'lastName': ''};
 
   @override
   void initState() {
     _read();
-    _futureAboutUs = postDio('${aboutUsApi}read', {});
+    // _futureAboutUs = postDio('${aboutUsApi}read', {});
+
     super.initState();
   }
 
@@ -58,12 +59,16 @@ class _UserInformationPageState extends State<UserInformationPage> {
   }
 
   _read() async {
-    //read profile
+    print('--------read profile---------');
     var profileCode = await storage.read(key: 'profileCode2');
-    if (profileCode != '' && profileCode != null)
+
+    if (profileCode != '' && profileCode != null) {
+      var response = await postDio(profileReadApi, {"code": profileCode});
+
       setState(() {
-        _futureProfile = postDio(profileReadApi, {"code": profileCode});
+        _futureProfile = Future.value(response[0]);
       });
+    }
   }
 
   int SelectedIndex = 0;
@@ -81,14 +86,14 @@ class _UserInformationPageState extends State<UserInformationPage> {
                 child: Stack(
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.45,
+                      height: MediaQuery.of(context).size.height * 0.4,
                       child: ClipRRect(
                         borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(30),
                           bottomRight: Radius.circular(30),
                         ),
                         child: Opacity(
-                          opacity: 0.25,
+                          opacity: 0.2,
                           child: Image.asset(
                             'assets/background/profile_bg.jpg',
                             fit: BoxFit.cover,
@@ -124,7 +129,14 @@ class _UserInformationPageState extends State<UserInformationPage> {
                 top: statusBarHeight + 10,
                 right: 10,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NotificationList(),
+                      ),
+                    );
+                  },
                   child: Container(
                     padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(
@@ -161,8 +173,6 @@ class _UserInformationPageState extends State<UserInformationPage> {
                             color: SelectedIndex == 0
                                 ? Colors.transparent
                                 : Color(0xFF9e6e19),
-
-                            // width: 1.5,
                           ),
                           borderRadius: BorderRadius.circular(15),
                         ),
@@ -261,8 +271,8 @@ class _UserInformationPageState extends State<UserInformationPage> {
                 ),
               ),
               Container(
-                height: 110,
-                width: 110,
+                height: 120,
+                width: 120,
                 margin: EdgeInsets.only(top: 70),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -282,7 +292,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
                       : Container(
                           color: Colors.black12,
                           child: Image.asset(
-                            'assets/images/user_not_found.png',
+                            'assets/profile.png',
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -291,7 +301,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
               Container(
                 height: 35,
                 margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.22,
+                  top: MediaQuery.of(context).size.height * 0.2,
                   left: 20.0,
                   right: 20.0,
                   bottom: 30.0,
@@ -304,7 +314,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
                       child: Container(
                         alignment: Alignment.center,
                         child: Text(
-                          model['firstName'] + ' ' + model['lastName'],
+                          model['firstName'] + '   ' + model['lastName'],
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Sarabun',
@@ -323,7 +333,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
                 height: 35,
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.27,
+                  top: MediaQuery.of(context).size.height * 0.25,
                   left: 20.0,
                   right: 20.0,
                   bottom: 30.0,
@@ -360,7 +370,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.35,
+                  top: MediaQuery.of(context).size.height * 0.32,
                   left: 20.0,
                   right: 20.0,
                   bottom: 30.0,
@@ -426,7 +436,7 @@ class _UserInformationPageState extends State<UserInformationPage> {
               Container(
                 padding: const EdgeInsets.all(10),
                 margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.45,
+                    top: MediaQuery.of(context).size.height * 0.42,
                     bottom: 30.0),
                 constraints: const BoxConstraints(
                   minHeight: 200,
@@ -462,28 +472,6 @@ class _UserInformationPageState extends State<UserInformationPage> {
                             'ข้อมูลผู้ใช้งาน',
                             'ดูและแก้ไขข้อมูลส่วนตัวของคุณ เช่น ชื่อ, เบอร์โทร, อีเมล'),
                       ),
-                      // InkWell(
-                      //   onTap: () async {
-                      //     final msg = model['idcard'] == ''
-                      //         ? await showDialog(
-                      //             context: context,
-                      //             builder: (BuildContext context) {
-                      //               return _buildDialogRegister();
-                      //             },
-                      //           )
-                      //         : await Navigator.push(
-                      //             context,
-                      //             MaterialPageRoute(
-                      //               builder: (context) => IDCardInfo(),
-                      //             ),
-                      //           );
-                      //     if (!msg) {
-                      //       _read();
-                      //     }
-                      //   },
-                      //   child: buttonMenuUser(
-                      //       'assets/icons/id_card.png', 'ข้อมูลบัตรประชาชน'),
-                      // ),
                       InkWell(
                         onTap: () => Navigator.push(
                           context,
@@ -523,46 +511,6 @@ class _UserInformationPageState extends State<UserInformationPage> {
                           'ตั้งเวลาและรูปแบบการแจ้งเตือนสำหรับกิจกรรมต่าง ๆ',
                         ),
                       ),
-                      // InkWell(
-                      //   onTap: () async {
-                      //     final msg = model['idcard'] == ''
-                      //         ? await showDialog(
-                      //             context: context,
-                      //             builder: (BuildContext context) {
-                      //               return _buildDialogRegister();
-                      //             })
-                      //         : model['isDF'] != true
-                      //             ? await showDialog(
-                      //                 context: context,
-                      //                 builder: (BuildContext context) {
-                      //                   return _buildDialogdriverLicence();
-                      //                 })
-                      //             : await Navigator.push(
-                      //                 context,
-                      //                 MaterialPageRoute(
-                      //                   builder: (context) => DriversInfo(),
-                      //                 ),
-                      //               );
-                      //     if (!msg) {
-                      //       _read();
-                      //     }
-                      //   },
-                      //   child:
-                      //       buttonMenuUser('assets/car.png', 'ข้อมูลใบขับขี่'),
-                      // ),
-                      // InkWell(
-                      //   onTap: () => Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => AboutUsForm(
-                      //         model: _futureAboutUs,
-                      //         title: 'ติดต่อเรา',
-                      //       ),
-                      //     ),
-                      //   ),
-                      //   child: buttonMenuUser(
-                      //       'assets/icons/phone.png', 'ติดต่อเรา'),
-                      // ),
                       InkWell(
                         onTap: () => Navigator.push(
                           context,
@@ -589,40 +537,6 @@ class _UserInformationPageState extends State<UserInformationPage> {
                           'เปลี่ยนรหัสผ่านบัญชีของคุณได้ที่นี่',
                         ),
                       ),
-                      // InkWell(
-                      //   onTap: () => Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => CarRegistration(
-                      //         type: 'C',
-                      //       ),
-                      //     ),
-                      //   ),
-                      //   child: buttonMenuUser(
-                      //       'assets/icons/papers.png', 'ชำระภาษีรถตนเอง'),
-                      // ),
-                      // InkWell(
-                      //   onTap: () => Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => CarRegistration(
-                      //         type: 'V',
-                      //       ),
-                      //     ),
-                      //   ),
-                      //   child: buttonMenuUser(
-                      //       'assets/icons/papers.png', 'ตรวจสภาพรถ'),
-                      // ),
-                      // InkWell(
-                      //   onTap: () => Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => ImageBinaryPage(),
-                      //     ),
-                      //   ),
-                      //   child: buttonMenuUser(
-                      //       'assets/icons/link.png', 'ดึงรูปใบสั่ง (เบต้า)'),
-                      // ),
                       Container(
                         alignment: Alignment.centerRight,
                         child: Text(
@@ -681,7 +595,6 @@ class _UserInformationPageState extends State<UserInformationPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Container(
-        // height: 100,
         padding: EdgeInsets.only(bottom: 2.0),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.white12),
@@ -742,260 +655,6 @@ class _UserInformationPageState extends State<UserInformationPage> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  _buildDialogRegister() {
-    return WillPopScope(
-      onWillPop: () {
-        return Future.value(false);
-      },
-      child: CustomAlertDialog(
-        contentPadding: EdgeInsets.all(0),
-        content: Container(
-          width: 325,
-          height: 300,
-          decoration: new BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: const Color(0xFFFFFF),
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: Colors.white,
-            ),
-            child: Column(
-              children: [
-                SizedBox(height: 20),
-                Image.asset(
-                  'assets/check_register.png',
-                  height: 50,
-                ),
-                // Icon(
-                //   Icons.check_circle_outline_outlined,
-                //   color: Color(0xFF5AAC68),
-                //   size: 60,
-                // ),
-                SizedBox(height: 10),
-                Text(
-                  'ยืนยันตัวตน',
-                  style: TextStyle(
-                    fontFamily: 'Sarabun',
-                    fontSize: 15,
-                    color: Color(0xFF4D4D4D),
-                  ),
-                ),
-                SizedBox(height: 15),
-                Text(
-                  'กรุณาลงทะเบียนด้วยบัตรประชาชน',
-                  style: TextStyle(
-                    fontFamily: 'Sarabun',
-                    fontSize: 13,
-                    color: Color(0xFF4D4D4D),
-                  ),
-                ),
-                Text(
-                  'เพื่อเชื่อมต่อใบอนุญาต และข้อมูลพาหนะในครอบครอง',
-                  style: TextStyle(
-                    fontFamily: 'Sarabun',
-                    fontSize: 13,
-                    color: Color(0xFF4D4D4D),
-                  ),
-                ),
-                SizedBox(height: 50),
-                Container(height: 0.5, color: Color(0xFFcfcfcf)),
-                InkWell(
-                  onTap: () async {
-                    Navigator.pop(context, false);
-                    final msg = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => IDCardVerification(),
-                      ),
-                    );
-                    if (!msg) {
-                      _read();
-                    }
-                  },
-                  child: Container(
-                    height: 50,
-                    alignment: Alignment.center,
-                    child: Text(
-                      'ลงทะเบียนเพื่อตรวจสอบใบอนุญาต',
-                      style: TextStyle(
-                        fontFamily: 'Sarabun',
-                        fontSize: 13,
-                        color: Color(0xFF4D4D4D),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(height: 0.5, color: Color(0xFFcfcfcf)),
-                Expanded(
-                    child: InkWell(
-                  onTap: () {
-                    Navigator.pop(context, false);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      // color: Color(0xFF9C0000),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10),
-                      ),
-                    ),
-                    height: 45,
-                    alignment: Alignment.center,
-                    child: Text(
-                      'ยกเลิก',
-                      style: TextStyle(
-                        fontFamily: 'Sarabun',
-                        fontSize: 13,
-                        color: Color(0xFF9C0000),
-                      ),
-                    ),
-                  ),
-                )),
-              ],
-            ),
-          ),
-          // child: //Contents here
-        ),
-      ),
-    );
-  }
-
-  _buildDialogdriverLicence() {
-    return WillPopScope(
-      onWillPop: () {
-        return Future.value(false);
-      },
-      child: CustomAlertDialog(
-        contentPadding: EdgeInsets.all(0),
-        content: Container(
-          width: 325,
-          height: 300,
-          // width: MediaQuery.of(context).size.width / 1.3,
-          // height: MediaQuery.of(context).size.height / 2.5,
-          decoration: new BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: const Color(0xFFFFFF),
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: Colors.white,
-            ),
-            child: Column(
-              children: [
-                SizedBox(height: 20),
-                Image.asset(
-                  'assets/check_register.png',
-                  height: 50,
-                ),
-                // Icon(
-                //   Icons.check_circle_outline_outlined,
-                //   color: Color(0xFF5AAC68),
-                //   size: 60,
-                // ),
-                SizedBox(height: 10),
-                Text(
-                  'ยืนยันตัวตร',
-                  style: TextStyle(
-                    fontFamily: 'Sarabun',
-                    fontSize: 15,
-                    // color: Colors.black,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'กรุณายืนยันตัวผ่านตัวเลือกดังต่อไปนี้',
-                  style: TextStyle(
-                    fontFamily: 'Sarabun',
-                    fontSize: 15,
-                    color: Color(0xFF4D4D4D),
-                  ),
-                ),
-                SizedBox(height: 28),
-                Container(height: 0.5, color: Color(0xFFcfcfcf)),
-                InkWell(
-                  onTap: () async {
-                    // Navigator.pop(context,false);
-                    final msg = await Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RegisterWithDriverLicense(),
-                      ),
-                    );
-
-                    if (!msg) {
-                      _read();
-                    }
-                  },
-                  child: Container(
-                    height: 45,
-                    alignment: Alignment.center,
-                    child: Text(
-                      'ยืนยันตัวตนผ่านใบขับขี่',
-                      style: TextStyle(
-                        fontFamily: 'Sarabun',
-                        fontSize: 15,
-                        color: Color(0xFF4D4D4D),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(height: 0.5, color: Color(0xFFcfcfcf)),
-                InkWell(
-                  onTap: () async {
-                    // Navigator.pop(context,false);
-                    final msg = await Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RegisterWithLicensePlate(),
-                      ),
-                    );
-                    if (!msg) {
-                      _read();
-                    }
-                  },
-                  child: Container(
-                    height: 45,
-                    alignment: Alignment.center,
-                    child: Text(
-                      'ยืนยันตัวตนผ่านทะเบียนรถที่ครอบครอง',
-                      style: TextStyle(
-                        fontFamily: 'Sarabun',
-                        fontSize: 15,
-                        color: Color(0xFF4D4D4D),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(height: 0.5, color: Color(0xFFcfcfcf)),
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context, false);
-                  },
-                  child: Container(
-                    height: 45,
-                    alignment: Alignment.center,
-                    child: Text(
-                      'ยกเลิก',
-                      style: TextStyle(
-                        fontFamily: 'Sarabun',
-                        fontSize: 15,
-                        color: Color(0xFF9C0000),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // child: //Contents here
         ),
       ),
     );

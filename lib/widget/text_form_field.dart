@@ -144,14 +144,14 @@ textFormField(
   return TextField(
     obscureText: isPassword!,
     style: TextStyle(
-      color: enabled! ? const Color(0xFF000070) : const Color(0xFFFFFFFF),
+      color: enabled! ? Color(0XFFfad84c) : const Color(0xFFFFFFFF),
       fontWeight: FontWeight.normal,
       fontFamily: 'Kanit',
       fontSize: 15.00,
     ),
     decoration: InputDecoration(
       filled: true,
-      fillColor: enabled ? const Color(0xFFC5DAFC) : const Color(0xFF707070),
+      fillColor: enabled ? const Color(0xFFfffadd) : const Color(0xFFbfbfbf),
       contentPadding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
       hintText: hintText,
       // focusedBorder: UnderlineInputBorder(
@@ -212,7 +212,7 @@ textFormFieldNoValidator(
     ),
     decoration: InputDecoration(
       filled: true,
-      fillColor: enabled ? const Color(0xFFC5DAFC) : const Color(0xFF707070),
+      fillColor: enabled ? const Color(0xFFfffadd) : const Color(0xFFbfbfbf),
       contentPadding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
       hintText: hintText,
       border: OutlineInputBorder(
@@ -251,14 +251,14 @@ textFormPhoneField(
   return TextFormField(
     keyboardType: TextInputType.number,
     style: TextStyle(
-      color: enabled ? const Color(0xFF000070) : const Color(0xFFFFFFFF),
+      color: enabled ? Color(0XFFfad84c) : const Color(0xFFFFFFFF),
       fontWeight: FontWeight.normal,
       fontFamily: 'Sarabun',
       fontSize: 15.00,
     ),
     decoration: InputDecoration(
       filled: true,
-      fillColor: enabled ? const Color(0xFFC5DAFC) : const Color(0xFF707070),
+      fillColor: enabled ? const Color(0xFFfffadd) : const Color(0xFF707070),
       contentPadding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
       hintText: hintText,
       border: OutlineInputBorder(
@@ -304,7 +304,7 @@ textFormIdCardField(
     ),
     decoration: InputDecoration(
       filled: true,
-      fillColor: enabled ? const Color(0xFFC5DAFC) : const Color(0xFF707070),
+      fillColor: enabled ? const Color(0xFFfffadd) : const Color(0xFF707070),
       contentPadding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
       hintText: hintText,
       border: OutlineInputBorder(
@@ -501,7 +501,7 @@ textFormLicenseField(
     ),
     decoration: InputDecoration(
       filled: true,
-      fillColor: enabled ? const Color(0xFFC5DAFC) : const Color(0xFF707070),
+      fillColor: enabled ? const Color(0xFFfffadd) : const Color(0xFF707070),
       contentPadding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
       hintText: hintText,
       border: OutlineInputBorder(

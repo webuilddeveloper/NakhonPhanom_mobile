@@ -11,8 +11,9 @@ import FirebaseCore
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     FirebaseApp.configure() 
-    // <- ✅ ต้องมีบรรทัดนี้
-    GMSServices.provideAPIKey("AIzaSyD-pkE26l2sWEU_CrbDz6b2myMe5Ab7jJo")
+
+    GMSServices.provideAPIKey("AIzaSyBUIGI-rbZxSBy7WaQhztUgkvhzpI8STpA")
+    
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }

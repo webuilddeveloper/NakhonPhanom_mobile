@@ -322,7 +322,7 @@ class _ReporterFormPageState extends State<ReporterFormPage> {
               ),
               decoration: InputDecoration(
                 filled: true,
-                fillColor: const Color(0xFFC5DAFC),
+                fillColor: const Color(0xFFfffadd),
                 contentPadding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
                 hintText: 'รายละเอียด',
                 border: OutlineInputBorder(

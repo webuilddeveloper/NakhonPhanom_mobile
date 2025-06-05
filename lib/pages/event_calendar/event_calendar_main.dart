@@ -50,7 +50,7 @@ class EventCalendarMainState extends State<EventCalendarMain> {
         },
         child: showCalendar
             ? CalendarPage()
-            : EventCalendarList(title: widget.title),
+            : EventCalendarList(title: widget.title!),
       ),
     );
   }

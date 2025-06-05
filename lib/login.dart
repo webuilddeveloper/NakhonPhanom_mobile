@@ -112,6 +112,7 @@ class LoginPageState extends State<LoginPage> {
       body: InkWell(
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
+        focusColor: Colors.transparent,
         onTap: () {
           FocusScope.of(context).unfocus();
         },
@@ -219,20 +220,21 @@ class LoginPageState extends State<LoginPage> {
                                     ),
                                   );
                                 },
-                                child: const Text(
+                                child: Text(
                                   "ลืมรหัสผ่าน",
                                   style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
                                     fontSize: 12.00,
                                     fontFamily: 'Sarabun',
                                   ),
                                 ),
                               ),
-                              const Text(
+                              Text(
                                 '|',
                                 style: TextStyle(
                                   fontSize: 15.00,
                                   fontFamily: 'Sarabun',
-                                  color: Colors.blueAccent,
+                                  color: Theme.of(context).primaryColor,
                                 ),
                               ),
                               TextButton(
@@ -258,9 +260,10 @@ class LoginPageState extends State<LoginPage> {
                                     ),
                                   );
                                 },
-                                child: const Text(
+                                child: Text(
                                   "สมัครสมาชิก",
                                   style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
                                     fontSize: 12.00,
                                     fontFamily: 'Sarabun',
                                   ),
@@ -534,8 +537,8 @@ class LoginPageState extends State<LoginPage> {
       );
     } else {
       String url = _category == 'guest'
-          ? 'm/Register/login'
-          : 'm/Register/$_category/login';
+          ? '/m/Register/login'
+          : '/m/Register/$_category/login';
 
       final result = await postLoginRegister(url, {
         'username': _username.toString(),
@@ -609,7 +612,7 @@ class LoginPageState extends State<LoginPage> {
   }
 
   Future<dynamic> register() async {
-    final result = await postLoginRegister('m/Register/create', {
+    final result = await postLoginRegister('/m/Register/create', {
       'username': _username,
       'password': _password,
       'category': _category,

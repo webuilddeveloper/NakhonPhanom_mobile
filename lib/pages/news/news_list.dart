@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:marine_mobile/component/header.dart' show header;
 import 'package:marine_mobile/shared/api_provider.dart';
+
 import '../../component/key_search.dart';
 import '../../component/tab_category.dart';
 import '../../shared/api_provider.dart' as service;
@@ -77,57 +79,7 @@ class _NewsList extends State<NewsList> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        // forceMaterialTransparency: true,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        titleSpacing: 5,
-        automaticallyImplyLeading: false,
-        flexibleSpace: Container(
-          width: double.infinity,
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top + 20,
-            left: 15,
-            right: 15,
-          ),
-          child: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  width: 35,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFbf9000),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.arrow_back_ios_new,
-                      size: 20,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              const Expanded(
-                child: Text(
-                  'ข่าวประกาศ',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Kanit',
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      appBar: header(context, goBack, title: 'ข่าวประกาศ'),
       body: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (OverscrollIndicatorNotification overScroll) {
           overScroll.disallowIndicator();
@@ -157,7 +109,6 @@ class _NewsList extends State<NewsList> {
                 onChange: (String val) {
                   setState(
                     () {
-                      // category = val;
                       news = new NewsListVertical(
                         site: 'DDPM',
                         model: postDio('${newsApi}read', {

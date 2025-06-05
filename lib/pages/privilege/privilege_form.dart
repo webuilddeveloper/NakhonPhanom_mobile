@@ -16,8 +16,7 @@ class PrivilegeForm extends StatefulWidget {
   final dynamic model;
 
   @override
-  _PrivilegeDetailPageState createState() =>
-      _PrivilegeDetailPageState();
+  _PrivilegeDetailPageState createState() => _PrivilegeDetailPageState();
 }
 
 class _PrivilegeDetailPageState extends State<PrivilegeForm> {
@@ -48,8 +47,9 @@ class _PrivilegeDetailPageState extends State<PrivilegeForm> {
       for (var item in result['objectData']) {
         data.add(item['imageUrl']);
 
-        dataPro.add(
-            item['imageUrl'] != null ? NetworkImage(item['imageUrl']) : NetworkImage(""));
+        dataPro.add(item['imageUrl'] != null
+            ? NetworkImage(item['imageUrl'])
+            : NetworkImage(""));
       }
       setState(() {
         urlImage = data;
@@ -91,7 +91,9 @@ class _PrivilegeDetailPageState extends State<PrivilegeForm> {
     double statusBarHeight = MediaQuery.of(context).padding.top;
     List image = ['${model['imageUrl']}'];
     List<ImageProvider> imagePro = [
-      model['imageUrl'] != null ? NetworkImage(model['imageUrl']) : NetworkImage("")
+      model['imageUrl'] != null
+          ? NetworkImage(model['imageUrl'])
+          : NetworkImage("")
     ];
     // return Container();
     return MediaQuery.removePadding(
@@ -201,12 +203,11 @@ class _PrivilegeDetailPageState extends State<PrivilegeForm> {
                         left: 10,
                       ),
                       child: new Html(
-                        data: model['description'],
-                        onLinkTap: (url, context, attributes) {
-                          // ignore: deprecated_member_use
-                          launch(url!);
-                        }
-                      ),
+                          data: model['description'],
+                          onLinkTap: (url, context, attributes) {
+                            // ignore: deprecated_member_use
+                            launch(url!);
+                          }),
 
                       // HtmlView(
                       //   data: model['description'],
@@ -228,16 +229,18 @@ class _PrivilegeDetailPageState extends State<PrivilegeForm> {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5.0),
-                              border: Border.all(color: Color(0xFFFF7514))),
+                              border: Border.all(
+                                color: Theme.of(context).primaryColor,
+                              )),
                           child: MaterialButton(
                             minWidth: MediaQuery.of(context).size.width,
                             onPressed: () {
                               launchURL(model['linkUrl']);
                             },
                             child: Text(
-                              'อ่านข่าวต้นฉบับ',
+                              'ดูรายละเอียดเพิ่มเติม',
                               style: TextStyle(
-                                color: Color(0xFFFF7514),
+                                color: Theme.of(context).primaryColor,
                                 fontFamily: 'Sarabun',
                               ),
                             ),

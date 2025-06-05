@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:marine_mobile/component/header.dart';
 
 import '../../login.dart';
 import '../../shared/api_provider.dart';
@@ -204,7 +205,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 },
               ),
               filled: true,
-              fillColor: Color(0xFFC5DAFC),
+              fillColor: const Color(0xFFfffadd),
               contentPadding: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
               hintText: 'รหัสผ่านปัจจุบัน',
               border: OutlineInputBorder(
@@ -247,7 +248,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 },
               ),
               filled: true,
-              fillColor: Color(0xFFC5DAFC),
+              fillColor: const Color(0xFFfffadd),
               contentPadding: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
               hintText: 'รหัสผ่านใหม่',
               border: OutlineInputBorder(
@@ -298,7 +299,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 },
               ),
               filled: true,
-              fillColor: Color(0xFFC5DAFC),
+              fillColor: const Color(0xFFfffadd),
               contentPadding: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
               hintText: 'ยืนยันรหัสผ่านใหม่',
               border: OutlineInputBorder(
@@ -452,59 +453,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     //         return Center(child: Text('Error: ${snapshot.error}'));
     //       else
     return Scaffold(
-      // appBar: header(context, goBack, title: 'เปลี่ยนรหัสผ่าน'),
-      appBar: AppBar(
-        // forceMaterialTransparency: true,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        titleSpacing: 5,
-        automaticallyImplyLeading: false,
-        flexibleSpace: Container(
-          width: double.infinity,
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top + 20,
-            left: 15,
-            right: 15,
-          ),
-          child: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  // alignment: Alignment.center,
-                  width: 35,
-                  decoration: BoxDecoration(
-                    color: const Color(0XFF213F91),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.arrow_back_ios_new,
-                      size: 20,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-              const Expanded(
-                child: Text(
-                  'เปลี่ยนรหัสผ่าน',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Kanit',
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 30),
-            ],
-          ),
-        ),
-      ),
+      appBar: header(context, goBack, title: 'เปลี่ยนรหัสผ่าน'),
       backgroundColor: Colors.white,
       body: InkWell(
         splashColor: Colors.transparent,

@@ -920,7 +920,7 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
                   ),
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: const Color(0xFFC5DAFC),
+                    fillColor: const Color(0xFFfffadd),
                     contentPadding:
                         const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
                     hintText: "วันเดือนปีเกิด",
@@ -990,7 +990,7 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
                 vertical: 0,
               ),
               decoration: BoxDecoration(
-                color: const Color(0xFFC5DAFC),
+                color: const Color(0xFFfffadd),
                 borderRadius: BorderRadius.circular(
                   10,
                 ),
@@ -1077,7 +1077,7 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
                 vertical: 0,
               ),
               decoration: BoxDecoration(
-                color: const Color(0xFFC5DAFC),
+                color: const Color(0xFFfffadd),
                 borderRadius: BorderRadius.circular(
                   10,
                 ),
@@ -1197,7 +1197,7 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
                 vertical: 0,
               ),
               decoration: BoxDecoration(
-                color: const Color(0xFFC5DAFC),
+                color: const Color(0xFFfffadd),
                 borderRadius: BorderRadius.circular(
                   10,
                 ),
@@ -1312,7 +1312,7 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
                 vertical: 0,
               ),
               decoration: BoxDecoration(
-                color: const Color(0xFFC5DAFC),
+                color: const Color(0xFFfffadd),
                 borderRadius: BorderRadius.circular(
                   10,
                 ),
@@ -1423,7 +1423,7 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
                 vertical: 0,
               ),
               decoration: BoxDecoration(
-                color: const Color(0xFFC5DAFC),
+                color: const Color(0xFFfffadd),
                 borderRadius: BorderRadius.circular(
                   10,
                 ),

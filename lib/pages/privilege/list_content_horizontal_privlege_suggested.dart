@@ -69,12 +69,7 @@ class _ListContentHorizontalPrivilegeSuggested
                   child: Text(
                     'ดูทั้งหมด',
                     style: TextStyle(fontSize: 12.0, fontFamily: 'Sarabun'),
-                  )
-                  // Image.asset(
-                  //   'assets/images/double_arrow_right.png',
-                  //   height: 15.0,
-                  // )
-                  ),
+                  )),
             ),
           ],
         ),
@@ -97,10 +92,8 @@ class _ListContentHorizontalPrivilegeSuggested
 renderCard(String title, String url, Future<dynamic> model, String urlComment,
     Function navigationForm) {
   return FutureBuilder<dynamic>(
-    future: model, // function where you call your api
+    future: model,
     builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-      // AsyncSnapshot<Your object type>
-
       if (snapshot.hasData) {
         return ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -110,8 +103,6 @@ renderCard(String title, String url, Future<dynamic> model, String urlComment,
                 context, navigationForm);
           },
         );
-        // } else if (snapshot.hasError) {
-        //   return Center(child: Text('Error: ${snapshot.error}'));
       } else {
         return ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -137,50 +128,23 @@ myCard(int index, int lastIndex, dynamic model, BuildContext context,
           children: [
             Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color(0xFF000000)),
+                borderRadius: BorderRadius.circular(15),
+                // color: Color(0xFF000000),
+              ),
               margin: index == 0
                   ? EdgeInsets.only(left: 10.0, right: 5.0)
                   : index == lastIndex - 1
                       ? EdgeInsets.only(left: 5.0, right: 15.0)
                       : EdgeInsets.symmetric(horizontal: 5.0),
-              // height: 334,
               width: 300.0,
               child: Column(
                 children: [
-                  Container(
-                    height: 45,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFFF7514),
-                      borderRadius: new BorderRadius.only(
-                        topLeft: const Radius.circular(5.0),
-                        topRight: const Radius.circular(5.0),
-                      ),
-                    ),
-                    padding: EdgeInsets.all(5),
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(left: 5.0),
-                          child: Text(
-                            'โปรโมชันสัปดาห์นี้',
-                            style: TextStyle(
-                                fontFamily: 'Sarabun',
-                                fontSize: 18.0,
-                                color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   Container(
                     child: Image.network(
                       '${model['imageUrl']}',
                       height: 200,
                       width: double.infinity,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                     ),
                   ),
                   Container(
@@ -192,8 +156,7 @@ myCard(int index, int lastIndex, dynamic model, BuildContext context,
                         bottomLeft: const Radius.circular(5.0),
                         bottomRight: const Radius.circular(5.0),
                       ),
-                      color: Color(0xFFE2E2E2),
-                      // color: Theme.of(context).primaryColorLight,
+                      color: Theme.of(context).primaryColor,
                     ),
                     padding: EdgeInsets.all(5.0),
                     child: Column(

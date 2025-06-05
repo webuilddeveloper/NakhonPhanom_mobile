@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:marine_mobile/component/header.dart';
 
 import '../../shared/api_provider.dart';
 import '../../widget/text_form_field.dart';
@@ -560,50 +561,51 @@ class _ConnectSocialPageState extends State<ConnectSocialPage> {
               },
             ),
           ),
-          Container(
-            height: 45.0,
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Color(0xFFE2E2E2),
-                  width: 1.0,
-                ),
-              ),
-            ),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    child: new Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Image.asset(
-                        "assets/logo/logo.png",
-                        height: 20.0,
-                        width: 20.0,
-                      ),
-                    ),
-                    width: 35.0,
-                    height: 35.0,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.65,
-                    margin: const EdgeInsets.only(left: 2.0, right: 10.0),
-                    child: Text(
-                      'เข้าใช้ด้วยบัญชี Khub Dee',
-                      style: new TextStyle(
-                        fontSize: 14.0,
-                        // color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.normal,
-                        fontFamily: 'Sarabun',
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          // Container(
+          //   height: 45.0,
+          //   decoration: const BoxDecoration(
+          //     border: Border(
+          //       bottom: BorderSide(
+          //         color: Color(0xFFE2E2E2),
+          //         width: 1.0,
+          //       ),
+          //     ),
+          //   ),
+          //   child: Align(
+          //     alignment: Alignment.bottomLeft,
+          //     child: Row(
+          //       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //       children: <Widget>[
+          //         Container(
+          //           child: new Padding(
+          //             padding: const EdgeInsets.all(2.0),
+          //             child: Image.asset(
+          //               "assets/logo/logo.png",
+          //               height: 20.0,
+          //               width: 20.0,
+          //             ),
+          //           ),
+          //           width: 35.0,
+          //           height: 35.0,
+          //         ),
+          //         Container(
+          //           width: MediaQuery.of(context).size.width * 0.65,
+          //           margin: const EdgeInsets.only(left: 2.0, right: 10.0),
+          //           child: Text(
+          //             'เข้าใช้ด้วยบัญชี Khub Dee',
+          //             style: new TextStyle(
+          //               fontSize: 14.0,
+          //               // color: Theme.of(context).primaryColor,
+          //               fontWeight: FontWeight.normal,
+          //               fontFamily: 'Sarabun',
+          //             ),
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+
           const Column(children: <Widget>[]),
           Center(
             child: Container(
@@ -657,7 +659,7 @@ class _ConnectSocialPageState extends State<ConnectSocialPage> {
                   ),
                   filled: true,
                   fillColor: showIsEdit
-                      ? const Color(0xFFC5DAFC)
+                      ? const Color(0xFFfffadd)
                       : const Color(0xFF707070),
                   contentPadding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
                   hintText: 'รหัสผ่านใหม่',
@@ -724,7 +726,7 @@ class _ConnectSocialPageState extends State<ConnectSocialPage> {
                     ),
                     filled: true,
                     fillColor: showIsEdit
-                        ? const Color(0xFFC5DAFC)
+                        ? const Color(0xFFfffadd)
                         : const Color(0xFF707070),
                     contentPadding:
                         const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
@@ -880,59 +882,7 @@ class _ConnectSocialPageState extends State<ConnectSocialPage> {
           );
         } else {
           return Scaffold(
-            // appBar: header(context, goBack, title: 'การเชื่อมต่อ'),
-            appBar: AppBar(
-              // forceMaterialTransparency: true,
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              titleSpacing: 5,
-              automaticallyImplyLeading: false,
-              flexibleSpace: Container(
-                width: double.infinity,
-                padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).padding.top + 20,
-                  left: 15,
-                  right: 15,
-                ),
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        // alignment: Alignment.center,
-                        width: 35,
-                        decoration: BoxDecoration(
-                          color: Color(0XFF213F91),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.arrow_back_ios_new,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        'การเชื่อมต่อ',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Kanit',
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 30),
-                  ],
-                ),
-              ),
-            ),
+            appBar: header(context, goBack, title: 'การเชื่อมต่อ'),
             backgroundColor: Colors.white,
             body: Container(
               child: ListView(

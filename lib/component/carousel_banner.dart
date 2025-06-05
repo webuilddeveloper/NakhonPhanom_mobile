@@ -52,7 +52,7 @@ class _CarouselBanner extends State<CarouselBanner> {
                   },
                   child: CarouselSlider(
                     options: CarouselOptions(
-                      height: 161,
+                      height: 141,
                       viewportFraction: 1.0,
                       enlargeCenterPage: false,
                       autoPlay: true,

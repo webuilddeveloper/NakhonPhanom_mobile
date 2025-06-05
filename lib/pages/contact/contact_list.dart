@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:marine_mobile/component/header.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../component/key_search.dart';
 import '../../shared/api_provider.dart';
-import '../../widget/header.dart';
+
 import 'contact_list_vertical.dart';
 
 class ContactList extends StatefulWidget {
@@ -45,8 +46,10 @@ class _ContactList extends State<ContactList> {
   void initState() {
     // _controller.addListener(_scrollListener);
 
-    _futureContact = post('${contactApi}read',
-        {'skip': 0, 'limit': _limit, 'category': widget.code});
+    _futureContact = post('${contactApi}read', {
+      'skip': 0,
+      'limit': _limit,
+    });
 
     super.initState();
   }
@@ -82,7 +85,7 @@ class _ContactList extends State<ContactList> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: header(context, goBack, title: widget.title),
+      appBar: header(context, goBack, title: widget.title ?? ''),
       body: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (OverscrollIndicatorNotification overScroll) {
           overScroll.disallowIndicator();
@@ -105,9 +108,7 @@ class _ContactList extends State<ContactList> {
           child: ListView(
             physics: ScrollPhysics(),
             shrinkWrap: true,
-            // controller: _controller,
             children: [
-              // SubHeader(th: widget.title, en: ""),
               SizedBox(height: 10),
               KeySearch(
                 show: hideSearch,
@@ -126,25 +127,6 @@ class _ContactList extends State<ContactList> {
                 },
               ),
               SizedBox(height: 10),
-              // CategorySelector(
-              //   model: service.post(
-              //     '${service.contactCategoryApi}read',
-              //     {'skip': 0, 'limit': 100},
-              //   ),
-              //   onChange: (String val) {
-              //     setState(() => {
-              //           contact = new ContactListCategoryVertical(
-              //             site: 'DDPM',
-              //             model: service.post(
-              //                 '${service.contactCategoryApi}read',
-              //                 {'skip': 0, 'limit': 10, "category": val}),
-              //             title: '',
-              //             url: '${service.contactCategoryApi}read',
-              //             // urlGallery: '${service.contactGalleryApi}',
-              //           ),
-              //         });
-              //   },
-              // ),
               ContactListVertical(
                 site: "DDPM",
                 model: _futureContact,

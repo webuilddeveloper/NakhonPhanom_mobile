@@ -445,7 +445,7 @@ class _IdentityVerificationPageState extends State<IdentityVerificationPage> {
                 vertical: 0,
               ),
               decoration: BoxDecoration(
-                color: const Color(0xFFC5DAFC),
+                color: const Color(0xFFfffadd),
                 borderRadius: BorderRadius.circular(
                   10,
                 ),
@@ -576,7 +576,7 @@ class _IdentityVerificationPageState extends State<IdentityVerificationPage> {
                 vertical: 0,
               ),
               decoration: BoxDecoration(
-                color: const Color(0xFFC5DAFC),
+                color: const Color(0xFFfffadd),
                 borderRadius: BorderRadius.circular(
                   10,
                 ),
@@ -694,7 +694,7 @@ class _IdentityVerificationPageState extends State<IdentityVerificationPage> {
                 vertical: 0,
               ),
               decoration: BoxDecoration(
-                color: const Color(0xFFC5DAFC),
+                color: const Color(0xFFfffadd),
                 borderRadius: BorderRadius.circular(
                   10,
                 ),
@@ -808,7 +808,7 @@ class _IdentityVerificationPageState extends State<IdentityVerificationPage> {
                 vertical: 0,
               ),
               decoration: BoxDecoration(
-                color: const Color(0xFFC5DAFC),
+                color: const Color(0xFFfffadd),
                 borderRadius: BorderRadius.circular(
                   10,
                 ),
@@ -918,7 +918,7 @@ class _IdentityVerificationPageState extends State<IdentityVerificationPage> {
                 vertical: 0,
               ),
               decoration: BoxDecoration(
-                color: const Color(0xFFC5DAFC),
+                color: const Color(0xFFfffadd),
                 borderRadius: BorderRadius.circular(
                   10,
                 ),
@@ -1246,7 +1246,7 @@ class _IdentityVerificationPageState extends State<IdentityVerificationPage> {
                   vertical: 0,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFC5DAFC),
+                  color: const Color(0xFFfffadd),
                   borderRadius: BorderRadius.circular(
                     10,
                   ),
@@ -1393,7 +1393,7 @@ class _IdentityVerificationPageState extends State<IdentityVerificationPage> {
                     vertical: 0,
                   ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFC5DAFC),
+                    color: const Color(0xFFfffadd),
                     borderRadius: BorderRadius.circular(
                       10,
                     ),
@@ -1529,7 +1529,7 @@ class _IdentityVerificationPageState extends State<IdentityVerificationPage> {
                     vertical: 0,
                   ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFC5DAFC),
+                    color: const Color(0xFFfffadd),
                     borderRadius: BorderRadius.circular(
                       10,
                     ),
@@ -1661,7 +1661,7 @@ class _IdentityVerificationPageState extends State<IdentityVerificationPage> {
                     vertical: 0,
                   ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFC5DAFC),
+                    color: const Color(0xFFfffadd),
                     borderRadius: BorderRadius.circular(
                       10,
                     ),
@@ -1789,7 +1789,7 @@ class _IdentityVerificationPageState extends State<IdentityVerificationPage> {
                     vertical: 0,
                   ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFC5DAFC),
+                    color: const Color(0xFFfffadd),
                     borderRadius: BorderRadius.circular(
                       10,
                     ),
@@ -1913,7 +1913,7 @@ class _IdentityVerificationPageState extends State<IdentityVerificationPage> {
                     vertical: 0,
                   ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFC5DAFC),
+                    color: const Color(0xFFfffadd),
                     borderRadius: BorderRadius.circular(
                       10,
                     ),

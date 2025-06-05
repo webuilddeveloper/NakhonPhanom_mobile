@@ -41,7 +41,7 @@ class _ContactListVertical extends State<ContactListVertical> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<dynamic>(
-      future: widget.model, // function where you call your api
+      future: widget.model,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.length == 0) {
@@ -59,7 +59,6 @@ class _ContactListVertical extends State<ContactListVertical> {
             );
           } else {
             return Container(
-              // color: Colors.transparent,
               alignment: Alignment.center,
               padding: EdgeInsets.only(left: 10.0, right: 10.0),
               child: ListView.builder(
@@ -77,7 +76,6 @@ class _ContactListVertical extends State<ContactListVertical> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         margin: EdgeInsets.only(bottom: 5.0),
-                        // width: 600,
                         child: Column(
                           children: [
                             Container(
@@ -86,14 +84,13 @@ class _ContactListVertical extends State<ContactListVertical> {
                                 minWidth: double.infinity,
                               ),
                               decoration: BoxDecoration(
-                                borderRadius: new BorderRadius.circular(5.0),
+                                borderRadius: new BorderRadius.circular(15.0),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 0,
                                     blurRadius: 7,
-                                    offset: Offset(
-                                        0, 3), // changes position of shadow
+                                    offset: Offset(4, 4),
                                   ),
                                 ],
                                 color: Color(0xFFFFFFFF),
@@ -116,7 +113,6 @@ class _ContactListVertical extends State<ContactListVertical> {
                                             fit: BoxFit.cover,
                                           ),
                                         ),
-                                        // color: Color(0xFF000070),
                                         alignment: Alignment.centerLeft,
                                         width: 55.0,
                                         height: 55.0,
@@ -132,12 +128,11 @@ class _ContactListVertical extends State<ContactListVertical> {
                                                 0.55,
                                             padding:
                                                 EdgeInsets.only(left: 10.0),
-                                            // color: Colors.red,
                                             child: Text(
                                               '${snapshot.data[index]['phone']}',
                                               style: TextStyle(
-                                                // fontWeight: FontWeight.normal,
-                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
                                                 fontFamily: 'Sarabun',
                                                 color: Theme.of(context)
                                                     .primaryColor,
@@ -152,11 +147,9 @@ class _ContactListVertical extends State<ContactListVertical> {
                                                 0.55,
                                             padding:
                                                 EdgeInsets.only(left: 10.0),
-                                            // color: Colors.red,
                                             child: Text(
                                               '${snapshot.data[index]['title']}',
                                               style: TextStyle(
-                                                // fontWeight: FontWeight.normal,
                                                 fontSize: 12.0,
                                                 fontFamily: 'Sarabun',
                                                 color: Color.fromRGBO(
@@ -178,11 +171,11 @@ class _ContactListVertical extends State<ContactListVertical> {
                                     child: Container(
                                       width: 50.00,
                                       height: 50.00,
-                                      // color: Color(0xFFA12624),
                                       padding: EdgeInsets.all(10.00),
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(27),
-                                        color: Color(0xFFA12624),
+                                        borderRadius: BorderRadius.circular(15),
+                                        // color: Color(0xFFA12624),
+                                        color: Theme.of(context).primaryColor,
                                       ),
                                       child: Image.asset(
                                           'assets/images/phone.png'),

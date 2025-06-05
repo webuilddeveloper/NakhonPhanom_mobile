@@ -21,10 +21,8 @@ class _PrivilegeListVertical extends State<PrivilegeListVertical> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<dynamic>(
-      future: widget.model, // function where you call your api
+      future: widget.model,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        // AsyncSnapshot<Your object type>
-
         if (snapshot.hasData) {
           if (snapshot.data.length == 0) {
             return Container(
@@ -50,10 +48,8 @@ class _PrivilegeListVertical extends State<PrivilegeListVertical> {
                 shrinkWrap: true,
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
-                  // return Container(height: 300.0,color: Colors.red,margin: EdgeInsets.all(5.0),);
                   return myCard(index, snapshot.data.length,
                       snapshot.data[index], context);
-                  // return demoItem(snapshot.data[index]);
                 },
               ),
             );
@@ -131,7 +127,6 @@ class _PrivilegeListVertical extends State<PrivilegeListVertical> {
           color: Color(0xFFFFFFFF),
         ),
         child: Column(
-          // alignment: Alignment.topCenter,
           children: [
             Expanded(
               child: Container(
@@ -143,14 +138,13 @@ class _PrivilegeListVertical extends State<PrivilegeListVertical> {
                   ),
                   color: Colors.white.withAlpha(220),
                   image: DecorationImage(
-                    fit: BoxFit.fill,
+                    fit: BoxFit.contain,
                     image: NetworkImage(model['imageUrl']),
                   ),
                 ),
               ),
             ),
             Container(
-              // margin: EdgeInsets.only(top: 157.0),
               padding: EdgeInsets.all(5),
               alignment: Alignment.topLeft,
               height: 40,
@@ -159,7 +153,7 @@ class _PrivilegeListVertical extends State<PrivilegeListVertical> {
                   bottomLeft: const Radius.circular(5.0),
                   bottomRight: const Radius.circular(5.0),
                 ),
-                color: Color(0xFFFF7900),
+                color: Theme.of(context).primaryColor,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,16 +168,6 @@ class _PrivilegeListVertical extends State<PrivilegeListVertical> {
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
-                  // Text(
-                  //   dateStringToDate(model['createDate']),
-                  //   style: TextStyle(
-                  //     fontWeight: FontWeight.normal,
-                  //     fontSize: 8,
-                  //     fontFamily: 'Sarabun',
-                  //     color: Color(0xFFFFFFFF),
-                  //   ),
-                  //   overflow: TextOverflow.ellipsis,
-                  // ),
                 ],
               ),
             ),

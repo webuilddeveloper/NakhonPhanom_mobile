@@ -110,7 +110,6 @@ class _ListContentHorizontalPrivilege
                     child: Text(
                       widget.title!,
                       style: TextStyle(
-                        // color: Color(0xFF000070),
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0,
@@ -166,8 +165,6 @@ renderCard(String title, Future<dynamic> model, Function navigationForm) {
             );
           },
         );
-        // } else if (snapshot.hasError) {
-        //   return Center(child: Text('Error: ${snapshot.error}'));
       } else {
         return ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -204,9 +201,7 @@ myCard(int index, int lastIndex, dynamic model, BuildContext context,
               ? EdgeInsets.only(left: 5.0, right: 15.0)
               : EdgeInsets.symmetric(horizontal: 5.0),
       decoration: BoxDecoration(
-          borderRadius: new BorderRadius.circular(5),
-          // color: Color(0xFF000070),
-          color: Colors.transparent),
+          borderRadius: BorderRadius.circular(5), color: Colors.transparent),
       width: 170.0,
       child: Stack(
         alignment: Alignment.topCenter,
@@ -220,7 +215,7 @@ myCard(int index, int lastIndex, dynamic model, BuildContext context,
               ),
               color: Colors.white.withAlpha(220),
               image: DecorationImage(
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
                 image: NetworkImage(model['imageUrl']),
               ),
             ),
@@ -235,7 +230,7 @@ myCard(int index, int lastIndex, dynamic model, BuildContext context,
                 bottomLeft: const Radius.circular(5.0),
                 bottomRight: const Radius.circular(5.0),
               ),
-              color: Color(0xFFFF7514),
+              color: Theme.of(context).primaryColor,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

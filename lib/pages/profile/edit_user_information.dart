@@ -6,6 +6,7 @@ import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:marine_mobile/component/header.dart';
 
 import '../../home_v2.dart';
 import '../../shared/api_provider.dart';
@@ -65,7 +66,6 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
     txtEmail.dispose();
     txtPassword.dispose();
     txtConPassword.dispose();
@@ -94,14 +94,14 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
   }
 
   Future<dynamic> getProvince() async {
-    final result = await postObjectData("route/province/read", {});
+    final result = await postObjectData("/route/province/read", {});
     if (result['status'] == 'S') {
       setState(() {});
     }
   }
 
   Future<dynamic> getDistrict() async {
-    final result = await postObjectData("route/district/read", {
+    final result = await postObjectData("/route/district/read", {
       'province': _selectedProvince,
     });
     if (result['status'] == 'S') {
@@ -110,7 +110,7 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
   }
 
   Future<dynamic> getSubDistrict() async {
-    final result = await postObjectData("route/tambon/read", {
+    final result = await postObjectData("/route/tambon/read", {
       'province': _selectedProvince,
       'district': _selectedDistrict,
     });
@@ -150,7 +150,7 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
 
     if (profileCode != '') {
       final result =
-          await postObjectData("m/Register/read", {'code': profileCode});
+          await postObjectData("m/register/read", {'code': profileCode});
       print('================>>>>> ${result}');
 
       if (result['status'] == 'S') {
@@ -219,156 +219,324 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
   Future<dynamic> submitUpdateUser() async {
     var value = await storage.read(key: 'dataUserLoginOPEC');
     var user = json.decode(value!);
-    user['imageUrl'] = _imageUrl;
-    // user['prefixName'] = _selectedPrefixName;
-    user['prefixName'] = txtPrefixName.text;
-    user['firstName'] = txtFirstName.text;
-    user['lastName'] = txtLastName.text;
-    user['email'] = txtEmail.text;
-    user['phone'] = txtPhone.text;
 
-    user['birthDay'] = DateFormat("yyyyMMdd").format(
-      DateTime(
-        _selectedYear,
-        _selectedMonth,
-        _selectedDay,
-      ),
-    );
-    user['sex'] = _selectedSex;
-    user['address'] = txtAddress.text;
-    user['soi'] = txtSoi.text;
-    user['moo'] = txtMoo.text;
-    user['road'] = txtRoad.text;
+    // อัพเดตข้อมูลที่จำเป็น
+    user['imageUrl'] = _imageUrl ?? '';
+    user['prefixName'] = '';
+    user['firstName'] = txtFirstName.text.trim();
+    user['lastName'] = txtLastName.text.trim();
+    user['email'] = '';
+    user['phone'] = txtPhone.text.trim();
+    user['birthDay'] = '';
+    user['sex'] = '';
+    user['address'] = '';
+    user['soi'] = '';
+    user['moo'] = '';
+    user['road'] = '';
     user['tambon'] = '';
     user['amphoe'] = '';
     user['province'] = '';
     user['postno'] = '';
-    user['tambonCode'] = _selectedSubDistrict;
-    user['amphoeCode'] = _selectedDistrict;
-    user['provinceCode'] = _selectedProvince;
-    user['postnoCode'] = _selectedPostalCode;
-    user['idcard'] = txtIdCard.text;
-    user['officerCode'] = txtOfficerCode.text;
-    user['linkAccount'] =
-        user['linkAccount'] != null ? user['linkAccount'] : '';
-    user['appleID'] = user['appleID'] != null ? user['appleID'] : "";
+    user['tambonCode'] = '';
+    user['amphoeCode'] = '';
+    user['provinceCode'] = '';
+    user['postnoCode'] = '';
+    user['idcard'] = '';
+    user['officerCode'] = '';
+    user['linkAccount'] = '';
+    user['appleID'] = '';
 
-    final result = await postObjectData('m/v2/Register/update', user);
+    // ลบ field ที่เป็น null ออกทั้งหมด
+    user.removeWhere((key, value) => value == null);
 
-    if (result['status'] == 'S') {
-      await storage.write(
-        key: 'dataUserLoginOPEC',
-        value: jsonEncode(result['objectData']),
-      );
+    // หรือแปลง null เป็นค่าว่าง
+    user.forEach((key, value) {
+      if (value == null) {
+        user[key] = '';
+      }
+    });
 
-      await storage.write(
-        key: 'profileImageUrl',
-        value: _imageUrl,
-      );
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => UserInformationPage(),
-      //   ),
-      // );
+    print('Clean user data: $user');
 
-      return showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return WillPopScope(
-            onWillPop: () {
-              return Future.value(false);
-            },
-            child: CupertinoAlertDialog(
-              title: new Text(
-                'อัพเดตข้อมูลเรียบร้อยแล้ว',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'Sarabun',
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              content: Text(" "),
-              actions: [
-                CupertinoDialogAction(
-                  isDefaultAction: true,
-                  child: new Text(
-                    "ตกลง",
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontFamily: 'Sarabun',
-                      color: Color(0xFF9A1120),
-                      fontWeight: FontWeight.normal,
-                    ),
+    try {
+      final result = await postObjectData('m/register/update', user);
+
+      if (result['status'] == 'S') {
+        print('================>>>>> success ${result['status']}');
+        await storage.write(
+          key: 'dataUserLoginOPEC',
+          value: jsonEncode(result['objectData']),
+        );
+
+        await storage.write(
+          key: 'profileImageUrl',
+          value: _imageUrl ?? '',
+        );
+
+        return showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (BuildContext context) {
+            return WillPopScope(
+              onWillPop: () {
+                return Future.value(false);
+              },
+              child: CupertinoAlertDialog(
+                title: new Text(
+                  'อัพเดตข้อมูลเรียบร้อยแล้ว',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Sarabun',
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => HomePageV2(),
+                ),
+                content: Text(" "),
+                actions: [
+                  CupertinoDialogAction(
+                    isDefaultAction: true,
+                    child: new Text(
+                      "ตกลง",
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontFamily: 'Sarabun',
+                        color: Color(0xFF9A1120),
+                        fontWeight: FontWeight.normal,
                       ),
-                      (Route<dynamic> route) => false,
-                    );
-                    // goBack();
-                    // Navigator.of(context).pop();
-                  },
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) => HomePageV2(),
+                        ),
+                        (Route<dynamic> route) => false,
+                      );
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      } else {
+        return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return WillPopScope(
+              onWillPop: () {
+                return Future.value(false);
+              },
+              child: CupertinoAlertDialog(
+                title: new Text(
+                  'อัพเดตข้อมูลไม่สำเร็จ',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Sarabun',
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
-              ],
-            ),
-          );
-        },
-      );
-    } else {
+                content: new Text(
+                  result['message'] ?? 'ไม่สามารถอัพเดตข้อมูลได้',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontFamily: 'Sarabun',
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+                actions: [
+                  CupertinoDialogAction(
+                    isDefaultAction: true,
+                    child: new Text(
+                      "ตกลง",
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontFamily: 'Sarabun',
+                        color: Color(0xFF9A1120),
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      }
+    } catch (e) {
+      print('Error in submitUpdateUser: $e');
       return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return WillPopScope(
-            onWillPop: () {
-              return Future.value(false);
-            },
-            child: CupertinoAlertDialog(
-              title: new Text(
-                'อัพเดตข้อมูลไม่สำเร็จ',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'Sarabun',
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
-                ),
+          return CupertinoAlertDialog(
+            title: Text('เกิดข้อผิดพลาด'),
+            content: Text('เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง'),
+            actions: [
+              CupertinoDialogAction(
+                child: Text('ตกลง'),
+                onPressed: () => Navigator.of(context).pop(),
               ),
-              content: new Text(
-                result['message'],
-                style: TextStyle(
-                  fontSize: 13,
-                  fontFamily: 'Sarabun',
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              actions: [
-                CupertinoDialogAction(
-                  isDefaultAction: true,
-                  child: new Text(
-                    "ตกลง",
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontFamily: 'Sarabun',
-                      color: Color(0xFF9A1120),
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
+            ],
           );
         },
       );
     }
   }
+
+  // Future<dynamic> submitUpdateUser() async {
+  //   var value = await storage.read(key: 'dataUserLoginOPEC');
+  //   var user = json.decode(value!);
+  //   user['imageUrl'] = _imageUrl;
+  //   // user['prefixName'] = _selectedPrefixName;
+  //   user['prefixName'] = '';
+  //   user['firstName'] = txtFirstName.text;
+  //   user['lastName'] = txtLastName.text;
+  //   user['email'] = '';
+  //   user['phone'] = txtPhone.text;
+
+  //   user['birthDay'] = '';
+  //   // DateFormat("yyyyMMdd").format(
+  //   //   DateTime(
+  //   //     _selectedYear,
+  //   //     _selectedMonth,
+  //   //     _selectedDay,
+  //   //   ),
+  //   // );
+  //   user['sex'] = '';
+  //   user['address'] = '';
+  //   user['soi'] = '';
+  //   user['moo'] = '';
+  //   user['road'] = '';
+  //   user['tambon'] = '';
+  //   user['amphoe'] = '';
+  //   user['province'] = '';
+  //   user['postno'] = '';
+  //   user['tambonCode'] = '';
+  //   user['amphoeCode'] = '';
+  //   user['provinceCode'] = '';
+  //   user['postnoCode'] = '';
+  //   user['idcard'] = '';
+  //   user['officerCode'] = '';
+  //   user['linkAccount'] = '';
+  //   // user['linkAccount'] != null ? user['linkAccount'] : '';
+  //   user['appleID'] = '';
+  //   //  user['appleID'] != null ? user['appleID'] : "";
+
+  //   final result = await postObjectData('m/register/update', user);
+
+  //   if (result['status'] == 'S') {
+  //     print('================>>>>> success ${result['status']}');
+  //     await storage.write(
+  //       key: 'dataUserLoginOPEC',
+  //       value: jsonEncode(result['objectData']),
+  //     );
+
+  //     await storage.write(
+  //       key: 'profileImageUrl',
+  //       value: _imageUrl,
+  //     );
+
+  //     return showDialog(
+  //       barrierDismissible: false,
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return WillPopScope(
+  //           onWillPop: () {
+  //             return Future.value(false);
+  //           },
+  //           child: CupertinoAlertDialog(
+  //             title: new Text(
+  //               'อัพเดตข้อมูลเรียบร้อยแล้ว',
+  //               style: TextStyle(
+  //                 fontSize: 16,
+  //                 fontFamily: 'Sarabun',
+  //                 color: Colors.black,
+  //                 fontWeight: FontWeight.normal,
+  //               ),
+  //             ),
+  //             content: Text(" "),
+  //             actions: [
+  //               CupertinoDialogAction(
+  //                 isDefaultAction: true,
+  //                 child: new Text(
+  //                   "ตกลง",
+  //                   style: TextStyle(
+  //                     fontSize: 13,
+  //                     fontFamily: 'Sarabun',
+  //                     color: Color(0xFF9A1120),
+  //                     fontWeight: FontWeight.normal,
+  //                   ),
+  //                 ),
+  //                 onPressed: () {
+  //                   Navigator.of(context).pushAndRemoveUntil(
+  //                     MaterialPageRoute(
+  //                       builder: (context) => HomePageV2(),
+  //                     ),
+  //                     (Route<dynamic> route) => false,
+  //                   );
+  //                   // goBack();
+  //                   // Navigator.of(context).pop();
+  //                 },
+  //               ),
+  //             ],
+  //           ),
+  //         );
+  //       },
+  //     );
+  //   } else {
+  //     return showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return WillPopScope(
+  //           onWillPop: () {
+  //             return Future.value(false);
+  //           },
+  //           child: CupertinoAlertDialog(
+  //             title: new Text(
+  //               'อัพเดตข้อมูลไม่สำเร็จ',
+  //               style: TextStyle(
+  //                 fontSize: 16,
+  //                 fontFamily: 'Sarabun',
+  //                 color: Colors.black,
+  //                 fontWeight: FontWeight.normal,
+  //               ),
+  //             ),
+  //             content: new Text(
+  //               result['message'] ?? 'ไม่สามารถอัพเดตข้อมูลได้',
+  //               style: TextStyle(
+  //                 fontSize: 13,
+  //                 fontFamily: 'Sarabun',
+  //                 color: Colors.black,
+  //                 fontWeight: FontWeight.normal,
+  //               ),
+  //             ),
+  //             actions: [
+  //               CupertinoDialogAction(
+  //                 isDefaultAction: true,
+  //                 child: new Text(
+  //                   "ตกลง",
+  //                   style: TextStyle(
+  //                     fontSize: 13,
+  //                     fontFamily: 'Sarabun',
+  //                     color: Color(0xFF9A1120),
+  //                     fontWeight: FontWeight.normal,
+  //                   ),
+  //                 ),
+  //                 onPressed: () {
+  //                   Navigator.of(context).pop();
+  //                 },
+  //               ),
+  //             ],
+  //           ),
+  //         );
+  //       },
+  //     );
+  //   }
+  // }
 
   readStorage() async {
     var value = await storage.read(key: 'dataUserLoginOPEC');
@@ -497,7 +665,6 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
             //     fontSize: 18.00,
             //     fontFamily: 'Sarabun',
             //     fontWeight: FontWeight.w500,
-            //     // color: Color(0xFFBC0611),
             //   ),
             // ),
             SizedBox(height: 5.0),
@@ -578,11 +745,6 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
             //           fontSize: 10.0,
             //         ),
             //       ),
-            //       // validator: (model) {
-            //       //   if (model.isEmpty) {
-            //       //     return 'กรุณากรอกวันเดือนปีเกิด.';
-            //       //   }
-            //       // },
             //     ),
             //   ),
             // ),
@@ -626,7 +788,6 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
             //   false,
             // ),
             // labelTextFormField('* เพศ'),
-
             // new Container(
             //   width: 5000.0,
             //   padding: EdgeInsets.symmetric(
@@ -653,7 +814,6 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
             //       ),
             //     ),
             //     validator: (value) =>
-            //         // value == '' ||
             //         value == null ? 'กรุณาเลือกเพศ' : null,
             //     hint: Text(
             //       'เพศ',
@@ -828,7 +988,6 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
                   borderRadius: BorderRadius.circular(5.0),
                   color: Theme.of(context).primaryColor,
                   child: MaterialButton(
-                    // minWidth: MediaQuery.of(context).size.width,
                     height: 40,
                     onPressed: () {
                       final form = _formKey.currentState;
@@ -947,7 +1106,7 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
               children: <Widget>[
                 new ListTile(
                     leading: new Icon(Icons.photo_library),
-                    title: new Text(
+                    title: Text(
                       'อัลบั้มรูปภาพ',
                       style: TextStyle(
                         fontSize: 13,
@@ -960,8 +1119,8 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
                       Navigator.of(context).pop();
                     }),
                 new ListTile(
-                  leading: new Icon(Icons.photo_camera),
-                  title: new Text(
+                  leading: Icon(Icons.photo_camera),
+                  title: Text(
                     'กล้องถ่ายรูป',
                     style: TextStyle(
                       fontSize: 13,
@@ -984,70 +1143,12 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
 
   void goBack() async {
     Navigator.pop(context, false);
-    // Navigator.of(context).pushAndRemoveUntil(
-    //   MaterialPageRoute(
-    //     builder: (context) => UserInformationPage(),
-    //   ),
-    //   (Route<dynamic> route) => false,
-    // );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: header(context, goBack, title: 'แก้ไขข้อมูล'),
-      appBar: AppBar(
-        // forceMaterialTransparency: true,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        titleSpacing: 5,
-        automaticallyImplyLeading: false,
-        flexibleSpace: Container(
-          width: double.infinity,
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top + 20,
-            left: 15,
-            right: 15,
-          ),
-          child: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  // alignment: Alignment.center,
-                  width: 35,
-                  decoration: BoxDecoration(
-                    color: Color(0XFF213F91),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      Icons.arrow_back_ios_new,
-                      size: 20,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Text(
-                  'แก้ไขข้อมูล',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Kanit',
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              SizedBox(width: 30),
-            ],
-          ),
-        ),
-      ),
+      appBar: header(context, goBack, title: 'แก้ไขข้อมูล'),
       backgroundColor: Color(0xFFF5F8FB),
       body: FutureBuilder<dynamic>(
         future: futureModel,
@@ -1099,42 +1200,42 @@ class _EditUserInformationPageState extends State<EditUserInformationPage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(48),
                           ),
-                          child: GestureDetector(
-                            onTap: () {
-                              _showPickerImage(context);
-                            },
-                            child: _imageUrl != null && _imageUrl != ''
-                                ? CircleAvatar(
-                                    backgroundColor: Colors.black,
-                                    backgroundImage:
-                                        _imageUrl != null && _imageUrl != ''
-                                            ? NetworkImage(_imageUrl!)
-                                            : null,
-                                  )
-                                : Container(
-                                    padding: EdgeInsets.all(10.0),
-                                    child: Image.asset(
-                                      'assets/images/user_not_found.png',
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                    ),
+                          child: _imageUrl != null && _imageUrl != ''
+                              ? CircleAvatar(
+                                  backgroundColor: Colors.black,
+                                  backgroundImage:
+                                      _imageUrl != null && _imageUrl != ''
+                                          ? NetworkImage(_imageUrl!)
+                                          : null,
+                                )
+                              : Container(
+                                  padding: EdgeInsets.all(10.0),
+                                  child: Image.asset(
+                                    'assets/images/user_not_found.png',
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
                                   ),
-                          ),
+                                ),
                         ),
                       ),
                       Center(
-                        child: Container(
-                          width: 31.0,
-                          height: 31.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            color: Color(0XFF213F91),
-                          ),
-                          margin: EdgeInsets.only(top: 90.0, left: 70.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            _showPickerImage(context);
+                          },
                           child: Container(
-                            padding: EdgeInsets.all(5.0),
-                            child: Image.asset('assets/logo/icons/Group37.png'),
+                            width: 31.0,
+                            height: 31.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            margin: EdgeInsets.only(top: 90.0, left: 70.0),
+                            child: Container(
+                              padding: EdgeInsets.all(5.0),
+                              child:
+                                  Image.asset('assets/logo/icons/Group37.png'),
+                            ),
                           ),
                         ),
                       ),

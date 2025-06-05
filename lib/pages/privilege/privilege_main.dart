@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:marine_mobile/component/link_url_out.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../component/header.dart';
 import '../../home_v2.dart';
 import '../../component/key_search.dart';
 import '../../shared/api_provider.dart';
-import '../../widget/header.dart';
+
 import '../main_popup/dialog_main_popup.dart';
 import 'list_content_horizontal_privilege.dart';
 import 'list_content_horizontal_privlege_suggested.dart';
@@ -51,8 +53,7 @@ class _PrivilegeMain extends State<PrivilegeMain> {
   void initState() {
     _futurePromotion = post(
         '${privilegeApi}read', {'skip': 0, 'limit': 10, 'isHighlight': true});
-    // _futurePrivilegeCategory =
-    //     post('${privilegeCategoryApi}read', {'skip': 0, 'limit': 100});
+
     _futureForceAds = post('${forceAdsApi}read', {'skip': 0, 'limit': 10});
     categoryRead();
     getForceAds();
@@ -63,7 +64,7 @@ class _PrivilegeMain extends State<PrivilegeMain> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: header(context, goBack, title: widget.title),
+      appBar: header(context, goBack, title: widget.title!),
       body: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (OverscrollIndicatorNotification overScroll) {
           overScroll.disallowIndicator();
@@ -126,19 +127,20 @@ class _PrivilegeMain extends State<PrivilegeMain> {
                                   String code,
                                   dynamic model,
                                 ) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => PrivilegeForm(
-                                        code: code,
-                                        model: model,
-                                      ),
-                                    ),
-                                  );
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => PrivilegeForm(
+                                  //       code: code,
+                                  //       model: model,
+                                  //     ),
+                                  //   ),
+                                  // );
+                                  launchURL('${model['linkUrl']}');
                                 },
                               ),
                               for (int i = 0; i < listData.length; i++)
-                                new ListContentHorizontalPrivilege(
+                                ListContentHorizontalPrivilege(
                                   code: category[i]['code'],
                                   title: category[i]['title'],
                                   model: listData[i],
@@ -153,15 +155,16 @@ class _PrivilegeMain extends State<PrivilegeMain> {
                                     String code,
                                     dynamic model,
                                   ) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => PrivilegeForm(
-                                          code: code,
-                                          model: model,
-                                        ),
-                                      ),
-                                    );
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder: (context) => PrivilegeForm(
+                                    //       code: code,
+                                    //       model: model,
+                                    //     ),
+                                    //   ),
+                                    // );
+                                    launchURL('${model['linkUrl']}');
                                   },
                                 ),
                             ],
@@ -296,21 +299,7 @@ class _PrivilegeMain extends State<PrivilegeMain> {
   }
 
   void goBack() async {
-    if (widget.fromPolicy!) {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => HomePageV2(),
-        ),
-        (Route<dynamic> route) => false,
-      );
-    } else {
-      Navigator.pop(context, false);
-    }
-    // Navigator.of(context).push(
-    //   MaterialPageRoute(
-    //     builder: (context) => Menu(),
-    //   ),
-    // );
+    Navigator.pop(context, false);
   }
 
   tabCategory() {
@@ -318,10 +307,8 @@ class _PrivilegeMain extends State<PrivilegeMain> {
       future: postCategory(
         '${privilegeCategoryApi}read',
         {'skip': 0, 'limit': 100},
-      ), // function where you call your api
+      ),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        // AsyncSnapshot<Your object type>
-
         if (snapshot.hasData) {
           return Container(
             height: 45.0,
@@ -361,7 +348,6 @@ class _PrivilegeMain extends State<PrivilegeMain> {
                     }
                     setState(() {
                       categorySelected = snapshot.data[index]['code'];
-                      // selectedIndex = index;
                     });
                   },
                   child: Padding(

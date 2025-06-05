@@ -19,7 +19,6 @@ PreferredSizeWidget header(
       automaticallyImplyLeading: false,
       titleSpacing: 5,
 
-      // Title
       title: Text(
         title,
         textAlign: TextAlign.center,
@@ -31,7 +30,6 @@ PreferredSizeWidget header(
         ),
       ),
 
-      // Back Button (Left)
       leading: isButtonLeft
           ? Padding(
               padding: const EdgeInsets.only(left: 10.0, bottom: 6.0),

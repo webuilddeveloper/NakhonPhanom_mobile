@@ -2,16 +2,17 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 // import 'package:flutter_datetime_picker/flutter_datetime_picker.dart' as datatTimePicker;
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as datatTimePicker;
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
+    as datatTimePicker;
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:marine_mobile/component/header.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 import '../../login.dart';
 import '../../shared/api_provider.dart';
 import 'package:flutter/material.dart';
 
-import '../../widget/header.dart';
 import '../../widget/text_form_field.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -195,12 +196,12 @@ class _RegisterPageState extends State<RegisterPage> {
               actions: [
                 CupertinoDialogAction(
                   isDefaultAction: true,
-                  child: const Text(
+                  child: Text(
                     "ตกลง",
                     style: TextStyle(
                       fontSize: 13,
                       fontFamily: 'Sarabun',
-                      color: Color(0xFFFF7514),
+                      color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.normal,
                     ),
                   ),
@@ -215,7 +216,8 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future<dynamic> submitRegister() async {
-    final result = await postLoginRegister('m/Register/create', {
+    print('---- submitRegister ----');
+    final result = await postLoginRegister('/Register/create', {
       'username': txtUsername.text,
       'password': txtPassword.text,
       'facebookID': "",
@@ -242,13 +244,6 @@ class _RegisterPageState extends State<RegisterPage> {
     });
 
     if (result.status == 'S') {
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => LoginPage(),
-      //   ),
-      // );
-
       return showDialog(
           barrierDismissible: false,
           context: context,
@@ -276,7 +271,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       style: TextStyle(
                         fontSize: 13,
                         fontFamily: 'Sarabun',
-                        color: Color(0xFFFF7514),
+                        color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.normal,
                       ),
                     ),
@@ -312,12 +307,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 actions: [
                   CupertinoDialogAction(
                     isDefaultAction: true,
-                    child: const Text(
+                    child: Text(
                       "ตกลง",
                       style: TextStyle(
                         fontSize: 13,
                         fontFamily: 'Sarabun',
-                        color: Color(0xFFFF7514),
+                        color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.normal,
                       ),
                     ),
@@ -335,23 +330,23 @@ class _RegisterPageState extends State<RegisterPage> {
   dialogOpenPickerDate() {
     datatTimePicker.DatePicker.showDatePicker(
       context,
-      theme: const datatTimePicker.DatePickerTheme(
+      theme: datatTimePicker.DatePickerTheme(
         containerHeight: 210.0,
         itemStyle: TextStyle(
           fontSize: 16.0,
-          color: Color(0xFFFF7514),
+          color: Theme.of(context).primaryColor,
           fontWeight: FontWeight.normal,
           fontFamily: 'Sarabun',
         ),
         doneStyle: TextStyle(
           fontSize: 16.0,
-          color: Color(0xFFFF7514),
+          color: Theme.of(context).primaryColor,
           fontWeight: FontWeight.normal,
           fontFamily: 'Sarabun',
         ),
         cancelStyle: TextStyle(
           fontSize: 16.0,
-          color: Color(0xFFFF7514),
+          color: Theme.of(context).primaryColor,
           fontWeight: FontWeight.normal,
           fontFamily: 'Sarabun',
         ),
@@ -499,15 +494,10 @@ class _RegisterPageState extends State<RegisterPage> {
   card() {
     return Card(
       color: Colors.white,
-      // shape: RoundedRectangleBorder(
-      //   borderRadius: BorderRadius.circular(15.0),
-      // ),
-      // elevation: 5,
       child: Padding(
         padding: EdgeInsets.all(0),
         child: formContentStep2(),
       ),
-      // child: _isShowStep1 ? formContentStep1() : formContentStep2()),
     );
   }
 
@@ -517,31 +507,11 @@ class _RegisterPageState extends State<RegisterPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         for (var item in _dataPolicy)
-          // new Html(
-          //   data: item['description'].toString(),
-          //   onLinkTap: (String url, RenderContext context,
-          //       Map<String, String> attributes, element) {
-          //     launch(url);
-          //     //open URL in webview, or launch URL in browser, or any other logic here
-          //   },
-          // ),
-
           new Html(
-            data: item['description'].toString(),
-            onLinkTap: (url, context, attributes) {
-              // ignore: deprecated_member_use
-              launch(url!);
-            }
-            // (String url, RenderContext context,
-            //     Map<String, String> attributes, element) {
-            //   launch();
-            // },
-          ),
-        // new HtmlView(
-        //   data: item['description'].toString(),
-        //   scrollable:
-        //       false, //false to use MarksownBody and true to use Marksown
-        // ),
+              data: item['description'].toString(),
+              onLinkTap: (url, context, attributes) {
+                launch(url!);
+              }),
         new Container(
           alignment: Alignment.center,
           child: CheckboxListTile(
@@ -572,24 +542,16 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 overlayColor: Color(0xFFFFC324),
-              textStyle: const TextStyle(
-                color: Colors.white,
-              )
-            ),
-            // shape: RoundedRectangleBorder(
-            //   borderRadius: BorderRadius.circular(10.0),
-            //   side: BorderSide(
-            //     color: Color(0xFFFFC324),
-            //   ),
-            // ),
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                )),
             onPressed: () {
               checkValueStep1();
             },
-            // color: Color(0xFFFFC324),
             child: Text(
               "ถัดไป >",
               style: new TextStyle(
@@ -674,65 +636,7 @@ class _RegisterPageState extends State<RegisterPage> {
             false,
             false,
           ),
-          // new Container(
-          //   width: 5000.0,
-          //   padding: EdgeInsets.symmetric(
-          //     horizontal: 5,
-          //     vertical: 0,
-          //   ),
-          //   decoration: BoxDecoration(
-          //     color: Color(0xFFC5DAFC),
-          //     borderRadius: BorderRadius.circular(
-          //       10,
-          //     ),
-          //   ),
-          //   // child: DropdownButtonHideUnderline(
-          //   child: DropdownButtonFormField(
-          //     decoration: InputDecoration(
-          //       errorStyle: TextStyle(
-          //         fontWeight: FontWeight.normal,
-          //         fontFamily: 'Sarabun',
-          //         fontSize: 10.0,
-          //       ),
-          //       enabledBorder: UnderlineInputBorder(
-          //         borderSide: BorderSide(
-          //           color: Colors.white,
-          //         ),
-          //       ),
-          //     ),
-          //     validator: (value) =>
-          //         value == '' || value == null ? 'กรุณาเลือกคำนำหน้า' : null,
-          //     hint: Text(
-          //       'กรุณาเลือกคำนำหน้า',
-          //       style: TextStyle(
-          //         fontSize: 15.00,
-          //         fontFamily: 'Sarabun',
-          //       ),
-          //     ),
-          //     value: _selectedPrefixName,
-          //     onChanged: (newValue) {
-          //       setState(() {
-          //         _selectedPrefixName = newValue;
-          //       });
-          //     },
-          //     items: _prefixNames.map((prefixName) {
-          //       return DropdownMenuItem(
-          //         child: new Text(
-          //           prefixName,
-          //           style: TextStyle(
-          //             fontSize: 15.00,
-          //             fontFamily: 'Sarabun',
-          //             color: Color(
-          //               0xFFFF7514,
-          //             ),
-          //           ),
-          //         ),
-          //         value: prefixName,
-          //       );
-          //     }).toList(),
-          //   ),
-          //   // ),
-          // ),
+
           labelTextFormField('* ชื่อ'),
           textFormField(
             txtFirstName,
@@ -763,14 +667,14 @@ class _RegisterPageState extends State<RegisterPage> {
               child: TextFormField(
                 controller: txtDate,
                 style: TextStyle(
-                  color: Color(0xFFFF7514),
+                  color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.normal,
                   fontFamily: 'Sarabun',
                   fontSize: 15.0,
                 ),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: Color(0xFFC5DAFC),
+                  fillColor: const Color(0xFFfffadd),
                   contentPadding: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
                   hintText: "วันเดือนปีเกิด",
                   border: OutlineInputBorder(
@@ -783,11 +687,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     fontSize: 10.0,
                   ),
                 ),
-                // validator: (model) {
-                //   if (model.isEmpty) {
-                //     return 'กรุณากรอกวันเดือนปีเกิด.';
-                //   }
-                // },
               ),
             ),
           ),
@@ -816,7 +715,7 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Material(
                 elevation: 5.0,
                 borderRadius: BorderRadius.circular(5.0),
-                color: Color(0xFF000070),
+                color: Theme.of(context).primaryColor,
                 child: MaterialButton(
                   minWidth: MediaQuery.of(context).size.width,
                   height: 40,
@@ -846,7 +745,6 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void goBack() async {
-    // Navigator.pop(context);
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (context) => LoginPage(),
@@ -861,10 +759,6 @@ class _RegisterPageState extends State<RegisterPage> {
       future: futureModel,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // return Center(child: Text('Please wait its loading...'));
-          // return Center(
-          //   child: CircularProgressIndicator(),
-          // );
           return Center(
             child: Container(
               width: double.infinity,
@@ -877,18 +771,13 @@ class _RegisterPageState extends State<RegisterPage> {
             return Center(child: Text('Error: ${snapshot.error}'));
           else
             return Container(
-              // decoration: BoxDecoration(
-              //   image: DecorationImage(
-              //     image: AssetImage("assets/background/login.png"),
-              //     fit: BoxFit.cover,
-              //   ),
-              // ),
               child: Scaffold(
                 appBar: header(context, goBack, title: 'สมัครสมาชิก'),
                 backgroundColor: Colors.white,
                 body: InkWell(
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
+                  focusColor: Colors.transparent,
                   onTap: () {
                     FocusScope.of(context).unfocus();
                   },
@@ -898,11 +787,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       shrinkWrap: true,
                       physics: ClampingScrollPhysics(),
                       padding: const EdgeInsets.all(15.0),
-                      children: <Widget>[
-                        // myWizard(),
-                        // card(),
-                        formContentStep2()
-                      ],
+                      children: <Widget>[formContentStep2()],
                     ),
                   ),
                 ),

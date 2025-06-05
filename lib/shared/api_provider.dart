@@ -61,19 +61,19 @@ const pollApi = server + 'm/poll/';
 const poiApi = serverNpm + '/poi/';
 const poiGalleryApi = serverNpm + '/poi/gallery/read';
 const faqApi = server + 'm/faq/';
-const knowledgeApi = server + 'm/knowledge/';
+const knowledgeApi = serverNpm + '/m/knowledge/';
 const cooperativeApi = server + 'm/cooperativeForm/';
-const contactApi = server + 'm/contact/';
+const contactApi = serverNpm + '/m/contact/';
 const bannerApi = server + 'banner/';
 const bannerGalleryApi = 'm/banner/gallery/read';
-const privilegeApi = server + "m/privilege/";
+const privilegeApi = serverNpm + "/privilege/";
 const menuApi = server + "m/menu/";
 const aboutUsApi = server + "m/aboutus/";
 const notificationApi = server + 'm/notification/';
 const welfareApi = server + 'm/welfare/';
 const welfareGalleryApi = server + 'm/welfare/gallery/read';
-const eventCalendarApi = server + 'm/eventCalendar/';
-const eventCalendarCategoryApi = server + 'm/eventCalendar/category/';
+const eventCalendarApi = serverNpm + '/eventCalendar/';
+const eventCalendarCategoryApi = serverNpm + '/eventCalendar/category/';
 const eventCalendarCommentApi = server + 'm/eventCalendar/comment/';
 const eventCalendarGalleryApi = server + 'm/eventCalendar/gallery/read';
 const pollGalleryApi = server + 'm/poll/gallery/read';
@@ -105,7 +105,7 @@ const warningCommentApi = server + 'm/warning/comment/';
 const knowledgeCategoryApi = server + 'm/knowledge/category/';
 const cooperativeCategoryApi = server + 'm/cooperativeForm/category/';
 const newsCategoryApi = server + 'm/news/category/';
-const privilegeCategoryApi = server + 'm/privilege/category/';
+const privilegeCategoryApi = serverNpm + '/privilege/category/';
 const contactCategoryApi = server + 'm/contact/category/';
 const welfareCategoryApi = server + 'm/welfare/category/';
 const fundCategoryApi = server + 'm/fund/category/';
@@ -288,6 +288,9 @@ Future<dynamic> postLogin(String url, dynamic criteria) async {
 }
 
 Future<dynamic> postObjectData(String url, dynamic criteria) async {
+  print('-----------postObjectData------------');
+  print('url: $url');
+  print('criteria: $criteria');
   var body = json.encode(criteria);
 
   var response = await http.post(Uri.parse(serverNpm + url),
@@ -298,14 +301,21 @@ Future<dynamic> postObjectData(String url, dynamic criteria) async {
       });
 
   if (response.statusCode == 200) {
+    print('postObjectData Success');
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}'); // ดู response นี้
     var data = json.decode(response.body);
+    // เพิ่ม debug เพื่อดูค่าที่ server ตอบกลับ
+    print('API Status: ${data['status']}');
+    print('API Message: ${data['message']}');
     return {
       "status": data['status'],
       "message": data['message'],
       "objectData": data['objectData']
     };
-    // Future.value(data['objectData']);
   } else {
+    print('HTTP Error: ${response.statusCode}');
+    print('HTTP Body: ${response.body}');
     return {"status": "F"};
   }
 }
@@ -355,14 +365,22 @@ Future<dynamic> postConfigShare() async {
 }
 
 Future<LoginRegister> postLoginRegister(String url, dynamic criteria) async {
+  print('-----------postLoginRegister------------');
+  print('url: $url');
+  print('criteria: $criteria');
   var body = json.encode(criteria);
 
-  var response = await http.post(Uri.parse(server + url), body: body, headers: {
-    "Accept": "application/json",
-    "Content-Type": "application/json"
-  });
+  var response = await http.post(Uri.parse(serverNpm + url),
+      body: body,
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      });
 
   if (response.statusCode == 200) {
+    print('-----------postLoginRegister Success------------');
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
     var userMap = jsonDecode(response.body);
 
     var user = new LoginRegister.fromJson(userMap);
@@ -452,6 +470,7 @@ Future<dynamic> postDio(String url, dynamic criteria) async {
   }
 
   if (criteria['card_id'] == '' ||
+      // ignore: curly_braces_in_flow_control_structures
       criteria['card_id'] == null) if (idcard != '' && idcard != null) {
     criteria = {'card_id': idcard, ...criteria};
   }
@@ -460,11 +479,13 @@ Future<dynamic> postDio(String url, dynamic criteria) async {
     criteria = {'username': username, ...criteria};
   }
 
+  // สร้าง Dio instance พร้อม options
   Dio dio = new Dio(BaseOptions(
     connectTimeout: Duration(seconds: 60),
     receiveTimeout: Duration(seconds: 60),
   ));
 
+  // แก้ปัญหา SSL Certificate
   (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) {
     client.badCertificateCallback = (cert, host, port) => true;
     return client;
@@ -478,6 +499,47 @@ Future<dynamic> postDio(String url, dynamic criteria) async {
     throw e;
   }
 }
+// Future<dynamic> postDio(String url, dynamic criteria) async {
+//   print('-----postDio-----');
+
+//   print('-----url-----' + url);
+//   print('-----criteria-----' + criteria.toString());
+//   final storage = new FlutterSecureStorage();
+//   final profileCode = await storage.read(key: 'profileCode2');
+//   final idcard = await storage.read(key: 'idcard');
+//   final username = await storage.read(key: 'username');
+
+//   if (profileCode != '' && profileCode != null) {
+//     criteria = {'profileCode': profileCode, ...criteria};
+//   }
+
+//   if (criteria['card_id'] == '' ||
+//       criteria['card_id'] == null) if (idcard != '' && idcard != null) {
+//     criteria = {'card_id': idcard, ...criteria};
+//   }
+
+//   if (username != '' && username != null) {
+//     criteria = {'username': username, ...criteria};
+//   }
+
+//   Dio dio = new Dio(BaseOptions(
+//     connectTimeout: Duration(seconds: 60),
+//     receiveTimeout: Duration(seconds: 60),
+//   ));
+
+//   (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) {
+//     client.badCertificateCallback = (cert, host, port) => true;
+//     return client;
+//   };
+
+//   try {
+//     var response = await dio.post(url, data: criteria);
+//     return Future.value(response.data['objectData']);
+//   } catch (e) {
+//     print('Error in postDio: $e');
+//     throw e;
+//   }
+// }
 
 Future<dynamic> postAnyDio(String url, dynamic criteria) async {
   final storage = new FlutterSecureStorage();
@@ -607,7 +669,7 @@ Future<dynamic> postDioCategoryWeMartNoAll(String url, dynamic criteria) async {
 }
 
 const splashReadApi = server + 'm/splash/read';
-const profileReadApi = server + 'm/v2/register/read';
+const profileReadApi = serverNpm + '/m/register/read';
 const organizationImageReadApi = server + 'm/v2/organization/image/read';
 const getDriverLicenceByDocNoApi = serverMW + 'DLTLC/getDriverLicenceByDocNo';
 const getAllTicketListApi = serverMW + 'ptm/getAllTicketList';
